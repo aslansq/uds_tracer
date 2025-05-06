@@ -1,0 +1,1385 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ServiceSubs>
+	<ServiceSub>
+		<ServiceNameForProgrammer>routineCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x00</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>routineCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>startRoutine</SubFunctionNameForProgrammer>
+		<Bit6to0>0x01</Bit6to0>
+		<ShortName>startRoutine</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>STR</Mnemonic>
+		<Details>This parameter specifies that the server shall start the routine specified by the routineIdentifier.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>routineCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>stopRoutine</SubFunctionNameForProgrammer>
+		<Bit6to0>0x02</Bit6to0>
+		<ShortName>stopRoutine</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>STPR</Mnemonic>
+		<Details>This parameter specifies that the server shall stop the routine specified by the routineIdentifier.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>routineCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>requestRoutineResults</SubFunctionNameForProgrammer>
+		<Bit6to0>0x03</Bit6to0>
+		<ShortName>requestRoutineResults</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RRR</Mnemonic>
+		<Details>This parameter specifies that the server shall return result values of the routine specified by the routineIdentifier.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>routineCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x04 to 0x7F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>diagSessCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x00</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>diagSessCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>def</SubFunctionNameForProgrammer>
+		<Bit6to0>0x01</Bit6to0>
+		<ShortName>defaultSession</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>DS</Mnemonic>
+		<Details>This diagnostic session enables the default diagnostic session in the server(s) and does not support any diagnostic application timeout handling provisions (e.g. no TesterPresent service is necessary to keep the session active).
+If any other session than the defaultSession has been active in the server and the defaultSession is once again started, then the following implementation rules shall be followed (see also the server diagnostic session state diagram given above):
+The server shall stop the current diagnostic session when it has sent the DiagnosticSessionControl positive response message and shall start the newly requested diagnostic session afterwards.
+If the server has sent a DiagnosticSessionControl positive response message it shall have re-locked the server if the client unlocked it during the diagnostic session.
+If the server sends a negative response message with the DiagnosticSessionControl request service identifier the active session shall be continued.
+In case the used data link requires an initialization step then the initialized server(s) shall start the default diagnostic session by default. No DiagnosticSessionControl with diagnosticSession set to defaultSession shall be required after the initialization step.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>diagSessCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>prog</SubFunctionNameForProgrammer>
+		<Bit6to0>0x02</Bit6to0>
+		<ShortName>ProgrammingSession</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>PRGS</Mnemonic>
+		<Details>This diagnosticSession enables all diagnostic services required to support the memory programming of a server.
+It is vehicle-manufacturer specific whether the positive response is sent prior or after the ECU has switched to/from programmingSession.
+In case the server runs the programmingSession in the boot software, the programmingSession shall only be left via an ECUReset (1116) service initiated by the client, a DiagnosticSessionControl (1016) service with sessionType equal to defaultSession, or a session layer timeout in the server.
+In case the server runs in the boot software when it receives the DiagnosticSessionControl (1016) service with sessionType equal to defaultSession or a session layer timeout occurs and a valid application software is present for both cases then the server shall restart the application software. This document does not specify the various implementation methods of how to achieve the restart of the valid application software (e.g. a valid application software can be determined directly in the boot software, during the ECU startup phase when performing an ECU reset, etc.).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>diagSessCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>extdDiag</SubFunctionNameForProgrammer>
+		<Bit6to0>0x03</Bit6to0>
+		<ShortName>Extended Diagnostic Session</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>EXTDS</Mnemonic>
+		<Details>This diagnosticSession can be used to enable all diagnostic services required to support the adjustment of functions like "Idle Speed, CO Value, etc." in the server's memory. It can also be used to enable diagnostic services, which are not specifically tied to the adjustment of functions (e.g. refer to timed services in Table 23).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>diagSessCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>safetySysDiag</SubFunctionNameForProgrammer>
+		<Bit6to0>0x04</Bit6to0>
+		<ShortName>Safety System Diagnostic Session</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SSDS</Mnemonic>
+		<Details>This diagnosticSession enables all diagnostic services required to support safety system related functions (e.g. airbag deployment).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>diagSessCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x05 to 0x3F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>Reserved for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>diagSessCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>vehicleManufacturerSpecific</SubFunctionNameForProgrammer>
+		<Bit6to0>0x40 to 0x5F</Bit6to0>
+		<ShortName>Vehicle Manufacturer Specific</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>VMS</Mnemonic>
+		<Details>Reserved for vehicle manufacturer-specific use.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>diagSessCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>sysSupplierSpecific</SubFunctionNameForProgrammer>
+		<Bit6to0>0x60 to 0x7E</Bit6to0>
+		<ShortName>System Supplier Specific</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SSS</Mnemonic>
+		<Details>Reserved for system supplier-specific use.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>diagSessCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x7F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>Reserved for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x00</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>Reserved by this document</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reqSeedDef</SubFunctionNameForProgrammer>
+		<Bit6to0>0x01</Bit6to0>
+		<ShortName>requestSeed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RSD</Mnemonic>
+		<Details>RequestSeed with the level of security defined by the vehicle manufacturer</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>sendKeyDef</SubFunctionNameForProgrammer>
+		<Bit6to0>0x02</Bit6to0>
+		<ShortName>sendKey</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SK</Mnemonic>
+		<Details>SendKey with the level of security defined by the vehicle manufacturer</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reqSeedLevel</SubFunctionNameForProgrammer>
+		<Bit6to0>0x03</Bit6to0>
+		<ShortName>requestSeed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RSD</Mnemonic>
+		<Details>RequestSeed with different levels of security defined by the vehicle manufacturer</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reqSeedLevel</SubFunctionNameForProgrammer>
+		<Bit6to0>0x05</Bit6to0>
+		<ShortName>requestSeed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RSD</Mnemonic>
+		<Details>RequestSeed with different levels of security defined by the vehicle manufacturer</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reqSeedLevel</SubFunctionNameForProgrammer>
+		<Bit6to0>0x07 to 0x41</Bit6to0>
+		<ShortName>requestSeed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RSD</Mnemonic>
+		<Details>RequestSeed with different levels of security defined by the vehicle manufacturer</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>sendKeyLevel</SubFunctionNameForProgrammer>
+		<Bit6to0>0x04</Bit6to0>
+		<ShortName>sendKey</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SK</Mnemonic>
+		<Details>SendKey with different levels of security defined by the vehicle manufacturer</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>sendKeyLevel</SubFunctionNameForProgrammer>
+		<Bit6to0>0x06</Bit6to0>
+		<ShortName>sendKey</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SK</Mnemonic>
+		<Details>SendKey with different levels of security defined by the vehicle manufacturer</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>sendKeyLevel</SubFunctionNameForProgrammer>
+		<Bit6to0>0x08 to 0x42</Bit6to0>
+		<ShortName>sendKey</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SK</Mnemonic>
+		<Details>SendKey with different levels of security defined by the vehicle manufacturer</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x43 to 0x5E</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>Reserved by this document for future definition</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>iso26021ReqSeed</SubFunctionNameForProgrammer>
+		<Bit6to0>0x5F</Bit6to0>
+		<ShortName>ISO26021-2 values</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RSD</Mnemonic>
+		<Details>RequestSeed for end-of-life activation of on-board pyrotechnic devices as defined in ISO 26021-2</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>iso26021SendKey</SubFunctionNameForProgrammer>
+		<Bit6to0>0x60</Bit6to0>
+		<ShortName>ISO26021-2 sendKey values</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SK</Mnemonic>
+		<Details>SendKey for end-of-life activation of on-board pyrotechnic devices as defined in ISO 26021-2</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>sysSuppSpecific</SubFunctionNameForProgrammer>
+		<Bit6to0>0x61 to 0x7E</Bit6to0>
+		<ShortName>systemSupplierSpecific</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SSS</Mnemonic>
+		<Details>Reserved for system supplier-specific use</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>securityAccess</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x7F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>Reserved by this document for future definition</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x00</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>hardReset</SubFunctionNameForProgrammer>
+		<Bit6to0>0x01</Bit6to0>
+		<ShortName>hardReset</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>HR</Mnemonic>
+		<Details>This SubFunction identifies a "hard reset" condition which simulates the power-on/start-up sequence typically performed after a server has been previously disconnected from its power supply (i.e. battery). The performed action is implementation specific and not defined by this document. It might result in the re-initialization of both volatile memory and non-volatile memory locations to predetermined values.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>keyOffOnReset</SubFunctionNameForProgrammer>
+		<Bit6to0>0x02</Bit6to0>
+		<ShortName>keyOffOnReset</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>KOFFONR</Mnemonic>
+		<Details>This SubFunction identifies a condition similar to the driver turning the ignition key off and back on. This reset condition should simulate a key-off-on sequence (i.e. interrupting the switched power supply). The performed action is implementation specific and not defined by this document. Typically the values of non-volatile memory locations are preserved; volatile memory will be initialized.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>softReset</SubFunctionNameForProgrammer>
+		<Bit6to0>0x03</Bit6to0>
+		<ShortName>softReset</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SR</Mnemonic>
+		<Details>This SubFunction identifies a "soft reset" condition, which causes the server to immediately restart the application program if applicable. The performed action is implementation specific and not defined by this document. A typical action is to restart the application without reinitializing of previously learned configuration data, adaptive factors and other long-term adjustments.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>enRapidPwrShutDown</SubFunctionNameForProgrammer>
+		<Bit6to0>0x04</Bit6to0>
+		<ShortName>enableRapidPowerShutDown</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ERPSD</Mnemonic>
+		<Details>This SubFunction applies to ECUs which are not ignition powered but battery powered only. Therefore a shutdown forces the sleep mode rather than a power off. Sleep means power off but still ready for wake-up (battery powered). The intention of the SubFunction is to reduce the stand-by time of an ECU after ignition is turned into the off position. This value requests the server to enable and perform a "rapid power shut down" function. The server shall execute the function immediately once the "key/ignition” is switched off. While the server executes the power down function, it shall transition either directly or after a defined stand-by-time to sleep mode. If the client requires a response message and the server is already prepared to execute the "rapid power shut down" function, the server shall send the positive response message prior to the start of the "rapid power shut down" function. The next occurrence of a "key on" or "ignition on" signal terminates the "rapid power shut down" function. NOTE This SubFunction is only applicable to a server supporting a stand-by-mode.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>disableRapidPwrShutdown</SubFunctionNameForProgrammer>
+		<Bit6to0>0x05</Bit6to0>
+		<ShortName>disableRapidPowerShutDown</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>DRPSD</Mnemonic>
+		<Details>This SubFunction requests the server to disable the previously enabled "rapid power shut down" function.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x06 to 0x3F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>vehicleManufacturerSpecific</SubFunctionNameForProgrammer>
+		<Bit6to0>0x40 to 0x5F</Bit6to0>
+		<ShortName>vehicleManufacturerSpecific</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>VMS</Mnemonic>
+		<Details>This range of values is reserved for vehicle manufacturer specific use.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>sysSuppSpecific</SubFunctionNameForProgrammer>
+		<Bit6to0>0x60 to 0x7E</Bit6to0>
+		<ShortName>systemSupplierSpecific</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SSS</Mnemonic>
+		<Details>This range of values is reserved for system supplier specific use.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>ecuReset</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x7F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>posResp</SubFunctionNameForProgrammer>
+		<Bit6to0>0x00</Bit6to0>
+		<ShortName>positiveResponse</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>PR</Mnemonic>
+		<Details>This NRC shall not be used in a negative response message. This positiveResponse parameter value is reserved for server internal implementation. Refer to 8.7.5.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x01 to 0x0F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>genReject</SubFunctionNameForProgrammer>
+		<Bit6to0>0x10</Bit6to0>
+		<ShortName>generalReject</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>GR</Mnemonic>
+		<Details>This NRC indicates that the requested action has been rejected by the server. The generalReject response code shall only be implemented in the server if none of the negative response codes defined in this document meet the needs of the implementation. At no means shall this NRC be a general replacement for the response codes defined in this document.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>servNotSupp</SubFunctionNameForProgrammer>
+		<Bit6to0>0x11</Bit6to0>
+		<ShortName>serviceNotSupported</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SNS</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server does not support the requested service. The server shall send this NRC in case the client has sent a request message with a service identifier which is unknown, not supported by the server, or is specified as a response service identifier. Therefore this negative response code is not shown in the list of negative response codes to be supported for a diagnostic service, because this negative response code is not applicable for supported services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>subFuncNotSupp</SubFunctionNameForProgrammer>
+		<Bit6to0>0x12</Bit6to0>
+		<ShortName>SubFunctionNotSupported</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SFNS</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server does not support the service specific parameters of the request message. The server shall send this NRC in case the client has sent a request message with a known and supported service identifier but with 'SubFunction' which is either unknown or not supported.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>incorrectMsg</SubFunctionNameForProgrammer>
+		<Bit6to0>0x13</Bit6to0>
+		<ShortName>incorrectMessageLengthOrInvalidFormat</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>IMLOIF</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the length of the received request message does not match the prescribed length for the specified service or the format of the paramters do not match the prescribed format for the specified service.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>respTooLong</SubFunctionNameForProgrammer>
+		<Bit6to0>0x14</Bit6to0>
+		<ShortName>responseTooLong</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RTL</Mnemonic>
+		<Details>This NRC shall be reported by the server if the response to be generated exceeds the maximum number of bytes available by the underlying network layer. This could occur if the response message exceeds the maximum size allowed by the underlying transport protocol or if the response message exceeds the server buffer size allocated for that purpose. EXAMPLE This problem may occur when several DIDs at a time are requested and the combination of all DIDs in the response exceeds the limit of the underlying transport protocol.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x15 to 0x20</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>busyRepeat</SubFunctionNameForProgrammer>
+		<Bit6to0>0x21</Bit6to0>
+		<ShortName>busyRepeatRequest</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>BRR</Mnemonic>
+		<Details>This NRC indicates that the server is temporarily too busy to perform the requested operation. In this circumstance the client shall perform repetition of the 'identical request message' or 'another request message'. The repetition of the request shall be delayed by a time specified in the respective implementation documents. EXAMPLE In a multi-client environment the diagnostic request of one client might be blocked temporarily by an NRC 2116 while a different client finishes a diagnostic task. If the server is able to perform the diagnostic task but needs additional time to finish the task and prepare the response, the NRC 7816 shall be used instead of NRC 2116. This NRC is in general supported by each diagnostic service, as not otherwise stated in the data link specific implementation document, therefore it is not listed in the list of applicable response codes of the diagnostic services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>condNotCorrect</SubFunctionNameForProgrammer>
+		<Bit6to0>0x22</Bit6to0>
+		<ShortName>conditionsNotCorrect</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CNC</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite conditions are not met.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x23</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reqSeqErr</SubFunctionNameForProgrammer>
+		<Bit6to0>0x24</Bit6to0>
+		<ShortName>requestSequenceError</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RSE</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server expects a different sequence of request messages or message as sent by the client. This may occur when sequence sensitive requests are issued in the wrong order. EXAMPLE A successful SecurityAccess service specifies a sequence of requestSeed and sendKey as SubFuction in the request messages. If the sequence is sent different by the client, the server sends a negative response message with the negative response code 2416 requestSequenceError.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>noRespFromSubComp</SubFunctionNameForProgrammer>
+		<Bit6to0>0x25</Bit6to0>
+		<ShortName>noResponseFromSubnetComponent</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>NRFSC</Mnemonic>
+		<Details>This NRC indicates that the server has received the request but the requested action could not be performed by the server as a subnet component which is necessary to supply the requested information did not respond within the specified time. The noResponseFromSubnetComponent negative response shall be implemented by gateways in electronic systems which contain electronic subnet components and which do not directly respond to the client's request. The gateway may receive the request for the subnet component and then request the necessary information from the subnet component. If the subnet component fails to respond, the server shall use this negative response to inform the client about the failure of the subnet component. This NRC is in general supported by each diagnostic service, as not otherwise stated in the data link specific implementation document, therefore it is not listed in the list of applicable response codes of the diagnostic services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>failPreventsExec</SubFunctionNameForProgrammer>
+		<Bit6to0>0x26</Bit6to0>
+		<ShortName>FailurePreventsExecutionOfRequestedAction</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>FPEORA</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because a failure condition, identified by a DTC (with at least one DTC status bit for TestFailed, Pending, Confirmed or TestFailedSinceLastClear set to 1), has occurred and that this failure condition prevents the server from performing the requested action. This NRC can, for example, direct the technician to read DTCs in order to identify and fix the problem. Diagnostic services used to access DTCs shall not implement this NRC, because an external test tool may check for the above NRC and automatically request DTCs whenever the above NRC has been received. This NRC is in general supported by each diagnostic service (except the services mentioned above), as not otherwise stated in the data link specific implementation document, therefore it is not listed in the list of applicable response codes of the diagnostic services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x27 to 0x30</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reqOutOfRange</SubFunctionNameForProgrammer>
+		<Bit6to0>0x31</Bit6to0>
+		<ShortName>requestOutOfRange</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ROOR</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server has detected that the request message contains a parameter which attempts to substitute a value beyond its range of authority (e.g. attempting to substitute a data byte of 111 when the data is only defined to 100), or which attempts to access a dataIdentifier/routineIdentifer that is not supported or not supported in active session. This NRC shall be implemented for all services, which allow the client to read data, write data or adjust functions by data in the server.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x32</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>securityAccessDenied</SubFunctionNameForProgrammer>
+		<Bit6to0>0x33</Bit6to0>
+		<ShortName>securityAccessDenied</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SAD</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server's security strategy has not been satisfied by the client. The server shall send this NRC if one of the following cases occur: — the test conditions of the server are not met, — the required message sequence, e.g. DiagnosticSessionControl, securityAccess is not met, — the client has sent a request message which requires an unlocked server. Beside the mandatory use of this negative response code as specified in the applicable services within this document, this negative response code can also be used for any case where security is required and is not yet granted to perform the required service.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>authRequried</SubFunctionNameForProgrammer>
+		<Bit6to0>0x34</Bit6to0>
+		<ShortName>authenticationRequired</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>AR</Mnemonic>
+		<Details>This NRC indicates that the requested service will not be taken because the client has insufficient rights based on its Authentication state. This NRC is in general supported by each diagnostic service, therefore it is not listed in the list of applicable response codes of the diagnostic services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>invavaliKKey</SubFunctionNameForProgrammer>
+		<Bit6to0>0x35</Bit6to0>
+		<ShortName>invalidKey</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>IK</Mnemonic>
+		<Details>This NRC indicates that the server has not given security access because the key sent by the client did not match with the key in the server's memory. This counts as an attempt to gain security. The server shall remain in the locked state and increment its internal securityAccessFailed counter as described in 10.4.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>exceedNumOfAttemps</SubFunctionNameForProgrammer>
+		<Bit6to0>0x36</Bit6to0>
+		<ShortName>exceedNumberOfAttempts</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ENOA</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the client has unsuccessfully attempted to gain security access more times than the server's security strategy will allow.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>requiredTimeDelayNotExpired</SubFunctionNameForProgrammer>
+		<Bit6to0>0x37</Bit6to0>
+		<ShortName>requiredTimeDelayNotExpired</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RTDNE</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the client's latest attempt to gain security access was initiated before the server's required timeout period had elapsed.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>secureDataTxRequired</SubFunctionNameForProgrammer>
+		<Bit6to0>0x38</Bit6to0>
+		<ShortName>secureDataTransmissionRequired</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SDTR</Mnemonic>
+		<Details>This NRC indicates that the requested service will not be taken because the requested action is required to be sent using a secured communication channel (i.e. A_MType is equal to secure {remote} diagnostics). This NRC is in general supported by each diagnostic service, therefore it is not listed in the list of applicable response codes of the diagnostic services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>secureDataTxNotAllowed</SubFunctionNameForProgrammer>
+		<Bit6to0>0x39</Bit6to0>
+		<ShortName>secureDataTransmissionNotAllowed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SDTNA</Mnemonic>
+		<Details>This NRC indicates that this message was received using the SecuredDataTransmission (8416) service. However, the requested action is not allowed to be sent using the SecuredDataTransmission (8416) service.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>secureDataVerifFail</SubFunctionNameForProgrammer>
+		<Bit6to0>0x3A</Bit6to0>
+		<ShortName>secureDataVerificationFailed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SDTF</Mnemonic>
+		<Details>This NRC indicates that the message failed in the security sub-layer. For example, invalid Apar - Administrative parameter or “Signature/Encryption Calculation” parameter, verification error of anti-replay counter or Signature/MAC, decryption or encryption error.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x3B to 0x4F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>certifInvalidPeriod</SubFunctionNameForProgrammer>
+		<Bit6to0>0x50</Bit6to0>
+		<ShortName>Certificate verification failed - Invalid Time Period</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CVFITP</Mnemonic>
+		<Details>Date and time of the server does not match the validity period of the Certificate.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>certifInvalidSig</SubFunctionNameForProgrammer>
+		<Bit6to0>0x51</Bit6to0>
+		<ShortName>Certificate verification failed - Invalid Signature</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CVFIS</Mnemonic>
+		<Details>Signature of the Certificate could not be verified.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>certifInvalidChainOfTrust</SubFunctionNameForProgrammer>
+		<Bit6to0>0x52</Bit6to0>
+		<ShortName>Certificate verification failed - Invalid Chain of Trust</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CVFICOT</Mnemonic>
+		<Details>Certificate could not be verified against stored information about the issuing authority.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>certifInvalidType</SubFunctionNameForProgrammer>
+		<Bit6to0>0x53</Bit6to0>
+		<ShortName>Certificate verification failed - Invalid Type</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CVFIT</Mnemonic>
+		<Details>Certificate does not match the current requested use case.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>certifInvalidFormat</SubFunctionNameForProgrammer>
+		<Bit6to0>0x54</Bit6to0>
+		<ShortName>Certificate verification failed - Invalid Format</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CVFIF</Mnemonic>
+		<Details>Certificate could not be evaluated because the format requirement has not been met.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>certifInvalidContent</SubFunctionNameForProgrammer>
+		<Bit6to0>0x55</Bit6to0>
+		<ShortName>Certificate verification failed - Invalid Content</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CVFIC</Mnemonic>
+		<Details>Certificate could not be verified because the content does not match.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>certifInvalidScope</SubFunctionNameForProgrammer>
+		<Bit6to0>0x56</Bit6to0>
+		<ShortName>Certificate verification failed - Invalid Scope</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CVFIS</Mnemonic>
+		<Details>The scope of the Certificate does not match the contents of the server.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>certifInvalidCertif</SubFunctionNameForProgrammer>
+		<Bit6to0>0x57</Bit6to0>
+		<ShortName>Certificate verification failed – Invalid Certificate (revoked)</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CVFIC</Mnemonic>
+		<Details>Certificate received from client is invalid, because the server has revoked access for some reason.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>ownerVerifFail</SubFunctionNameForProgrammer>
+		<Bit6to0>0x58</Bit6to0>
+		<ShortName>Ownership verification failed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>OVF</Mnemonic>
+		<Details>Delivered Ownership does not match the provided challenge or could not verified with the own private key.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>challengeCalcFail</SubFunctionNameForProgrammer>
+		<Bit6to0>0x59</Bit6to0>
+		<ShortName>Challenge calculation failed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CCF</Mnemonic>
+		<Details>The challenge could not be calculated on the server side.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>setAccessRightFail</SubFunctionNameForProgrammer>
+		<Bit6to0>0x5A</Bit6to0>
+		<ShortName>Setting Access Rights failed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SARF</Mnemonic>
+		<Details>The server could not set the access rights.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>sessKeyCreateFail</SubFunctionNameForProgrammer>
+		<Bit6to0>0x5B</Bit6to0>
+		<ShortName>Session key creation/derivation failed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SKCDF</Mnemonic>
+		<Details>The server could not create or derive a session key.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>confDataUsageFail</SubFunctionNameForProgrammer>
+		<Bit6to0>0x5C</Bit6to0>
+		<ShortName>Configuration data usage failed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>CDUF</Mnemonic>
+		<Details>The server could not work with the provided configuration data.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>deAuthFail</SubFunctionNameForProgrammer>
+		<Bit6to0>0x5D</Bit6to0>
+		<ShortName>DeAuthentication failed</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>DAF</Mnemonic>
+		<Details>DeAuthentication was not successful, server could still be unprotected.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x5E to 0x6F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>upDownNotAccept</SubFunctionNameForProgrammer>
+		<Bit6to0>0x70</Bit6to0>
+		<ShortName>uploadDownloadNotAccepted</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>UDNA</Mnemonic>
+		<Details>This NRC indicates that an attempt to upload/download to a server's memory cannot be accomplished due to some fault conditions.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>txDataSuspend</SubFunctionNameForProgrammer>
+		<Bit6to0>0x71</Bit6to0>
+		<ShortName>transferDataSuspended</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>TDS</Mnemonic>
+		<Details>This NRC indicates that a data transfer operation was halted due to some fault. The active transferData sequence shall be aborted.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>genProgFail</SubFunctionNameForProgrammer>
+		<Bit6to0>0x72</Bit6to0>
+		<ShortName>generalProgrammingFailure</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>GPF</Mnemonic>
+		<Details>This NRC indicates that the server detected an error when erasing or programming a memory location in the permanent memory device (e.g. Flash Memory).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>wrongBlockSeqCounter</SubFunctionNameForProgrammer>
+		<Bit6to0>0x73</Bit6to0>
+		<ShortName>wrongBlockSequenceCounter</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>WBSC</Mnemonic>
+		<Details>This NRC indicates that the server detected an error in the sequence of blockSequenceCounter values. Note that the repetition of a TransferData request message with a blockSequenceCounter equal to the one included in the previous TransferData request message shall be accepted by the server.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x74 to 0x77</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reqCorrectRxRespPending</SubFunctionNameForProgrammer>
+		<Bit6to0>0x78</Bit6to0>
+		<ShortName>requestCorrectlyReceived-ResponsePending</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RCRRP</Mnemonic>
+		<Details>This NRC indicates that the request message was received correctly, and that all parameters in the request message were valid (these checks can be delayed until after sending this NRC if executing the boot software), but the action to be performed is not yet completed and the server is not yet ready to receive another request. As soon as the requested service has been completed, the server shall send a positive response message or negative response message with a response code different from this. The negative response message with this NRC may be repeated by the server until the requested service is completed and the final response message is sent. This NRC might impact the application layer timing parameter values. The detailed specification shall be included in the data link specific implementation document. This NRC shall only be used in a negative response message if the server will not be able to receive further request messages from the client while completing the requested diagnostic service. When this NRC is used, the server shall always send a final response (positive or negative) independent of the suppressPosRspMsgIndicationBit value or the suppress requirement for responses with NRCs SNS, SFNS, SNSIAS, SFNSIAS and ROOR on functionally addressed requests. A typical example where this NRC may be used is when the client has sent a request message, which includes data to be programmed or erased in flash memory of the server. If the programming/erasing routine (usually executed out of RAM) is not able to support serial communication while writing to the flash memory the server shall send a negative response message with this response code. This NRC is in general supported by each diagnostic service, as not otherwise stated in the data link specific implementation document, therefore it is not listed in the list of applicable response codes of the diagnostic services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x79 to 0x7D</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>subFuncNotActInCurrSess</SubFunctionNameForProgrammer>
+		<Bit6to0>0x7E</Bit6to0>
+		<ShortName>SubFunctionNotSupportedInActiveSession</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SFNSIAS</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server does not support the requested SubFunction in the session currently active. This NRC shall only be used when the requested SubFunction is known to be supported in another session, otherwise response code SFNS (SubFunctionNotSupported) shall be used (e.g. servers executing the boot software generally do not know which SubFunctions are supported in the application (and vice versa) and therefore may need to respond with NRC 1216 instead). This NRC shall be supported by each diagnostic service with a SubFunction parameter, if not otherwise stated in the data link specific implementation document, therefore it is not listed in the list of applicable response codes of the diagnostic services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>servNotActInCurrSess</SubFunctionNameForProgrammer>
+		<Bit6to0>0x7F</Bit6to0>
+		<ShortName>serviceNotSupportedInActiveSession</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SNSIAS</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server does not support the requested service in the session currently active. This NRC shall only be used when the requested service is known to be supported in another session, otherwise response code SNS (serviceNotSupported) shall be used (e.g. servers executing the boot software generally do not know which services are supported in the application (and vice versa) and therefore may need to respond with NRC 1116 instead). This NRC is in general supported by each diagnostic service, as not otherwise stated in the data link specific implementation document, therefore it is not listed in the list of applicable response codes of the diagnostic services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x80</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>rpmTooHigh</SubFunctionNameForProgrammer>
+		<Bit6to0>0x81</Bit6to0>
+		<ShortName>rpmTooHigh</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RPMTH</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for RPM is not met (current RPM is above a preprogrammed maximum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>rpmTooLow</SubFunctionNameForProgrammer>
+		<Bit6to0>0x82</Bit6to0>
+		<ShortName>rpmTooLow</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RPMTL</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for RPM is not met (current RPM is below a preprogrammed minimum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>engineRunning</SubFunctionNameForProgrammer>
+		<Bit6to0>0x83</Bit6to0>
+		<ShortName>engineIsRunning</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>EIR</Mnemonic>
+		<Details>This NRC is required for those actuator tests which cannot be actuated while the Engine is running. This is different from RPM too high negative response, and shall be allowed.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>engineNotRunning</SubFunctionNameForProgrammer>
+		<Bit6to0>0x84</Bit6to0>
+		<ShortName>engineIsNotRunning</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>EINR</Mnemonic>
+		<Details>This NRC is required for those actuator tests which cannot be actuated unless the Engine is running. This is different from RPM too low negative response, and shall be allowed.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>engineRunTimeLow</SubFunctionNameForProgrammer>
+		<Bit6to0>0x85</Bit6to0>
+		<ShortName>engineRunTimeTooLow</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ERTTL</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for engine run time is not met (current engine run time is below a preprogrammed limit).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>tempTooHigh</SubFunctionNameForProgrammer>
+		<Bit6to0>0x86</Bit6to0>
+		<ShortName>temperatureTooHigh</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>TEMPTH</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for temperature is not met (current temperature is above a preprogrammed maximum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>tempTooLow</SubFunctionNameForProgrammer>
+		<Bit6to0>0x87</Bit6to0>
+		<ShortName>temperatureTooLow</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>TEMPTL</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for temperature is not met (current temperature is below a preprogrammed minimum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>vehicleSpeedTooHigh</SubFunctionNameForProgrammer>
+		<Bit6to0>0x88</Bit6to0>
+		<ShortName>vehicleSpeedTooHigh</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>VSTH</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for vehicle speed is not met (current VS is above a preprogrammed maximum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>vehicleSpeedTooLow</SubFunctionNameForProgrammer>
+		<Bit6to0>0x89</Bit6to0>
+		<ShortName>vehicleSpeedTooLow</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>VSTL</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for vehicle speed is not met (current VS is below a preprogrammed minimum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>throttleTooHigh</SubFunctionNameForProgrammer>
+		<Bit6to0>0x8A</Bit6to0>
+		<ShortName>throttle/PedalTooHigh</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>TPTH</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for throttle/pedal position is not met (current TP/APP is above a preprogrammed maximum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>throttleTooLow</SubFunctionNameForProgrammer>
+		<Bit6to0>0x8B</Bit6to0>
+		<ShortName>throttle/PedalTooLow</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>TPTL</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for throttle/pedal position is not met (current TP/APP is below a preprogrammed minimum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>transmissionNotInNeutral</SubFunctionNameForProgrammer>
+		<Bit6to0>0x8C</Bit6to0>
+		<ShortName>transmissionRangeNotInNeutral</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>TRNIN</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for being in neutral is not met (current transmission range is not in neutral).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>transmissionNotInGear</SubFunctionNameForProgrammer>
+		<Bit6to0>0x8D</Bit6to0>
+		<ShortName>transmissionRangeNotInGear</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>TRNIG</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for being in gear is not met (current transmission range is not in gear).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x8E</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>brakeNotApplied</SubFunctionNameForProgrammer>
+		<Bit6to0>0x8F</Bit6to0>
+		<ShortName>brakeSwitch(es)NotClosed (Brake Pedal not pressed or not applied)</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>BSNC</Mnemonic>
+		<Details>This NRC indicates that for safety reasons, this is required for certain tests before it begins, and shall be maintained for the entire duration of the test.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>shifterLevelNotInPark</SubFunctionNameForProgrammer>
+		<Bit6to0>0x90</Bit6to0>
+		<ShortName>shifterLeverNotInPark</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SLNIP</Mnemonic>
+		<Details>This NRC indicates that for safety reasons, this is required for certain tests before it begins, and shall be maintained for the entire duration of the test.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>torqConvClutchLocked</SubFunctionNameForProgrammer>
+		<Bit6to0>0x91</Bit6to0>
+		<ShortName>torqueConverterClutchLocked</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>TCCL</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for torque converter clutch is not met (current TCC status above a preprogrammed limit or locked).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>voltageTooHigh</SubFunctionNameForProgrammer>
+		<Bit6to0>0x92</Bit6to0>
+		<ShortName>voltageTooHigh</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>VTH</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for voltage at the primary pin of the server (ECU) is not met (current voltage is above a preprogrammed maximum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>voltageTooLow</SubFunctionNameForProgrammer>
+		<Bit6to0>0x93</Bit6to0>
+		<ShortName>voltageTooLow</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>VTL</Mnemonic>
+		<Details>This NRC indicates that the requested action will not be taken because the server prerequisite condition for voltage at the primary pin of the server (ECU) is not met (current voltage is below a preprogrammed minimum threshold).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>resourceTempNotAvail</SubFunctionNameForProgrammer>
+		<Bit6to0>0x94</Bit6to0>
+		<ShortName>ResourceTemporarilyNotAvailable</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RTNA</Mnemonic>
+		<Details>This NRC indicates that the server has received the request but the requested action could not be performed by the server because an application which is necessary to supply the requested information is temporality not available. This NRC is in general supported by each diagnostic service, as not otherwise stated in the data link specific implementation document, therefore it is not listed in the list of applicable response codes of the diagnostic services.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reservedForSpecificCondsNotCorrect</SubFunctionNameForProgrammer>
+		<Bit6to0>0x95 to 0xEF</Bit6to0>
+		<ShortName>reservedForSpecificConditionsNotCorrect</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RFSCNC</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>vehicleMfrSpecificCondsNotCorrect</SubFunctionNameForProgrammer>
+		<Bit6to0>0xF0 to 0xFE</Bit6to0>
+		<ShortName>vehicleManufacturerSpecificConditionsNotCorrect</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>VMSCNC</Mnemonic>
+		<Details>This range of values is reserved for vehicle manufacturer specific condition not correct scenarios.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>negResp</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0xFF</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x00</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportNumOfDtcByStatusMask</SubFunctionNameForProgrammer>
+		<Bit6to0>0x01</Bit6to0>
+		<ShortName>reportNumberOfDTCByStatusMask</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RNODTCBSM</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the number of DTCs matching a client defined status mask.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcByStatusMask</SubFunctionNameForProgrammer>
+		<Bit6to0>0x02</Bit6to0>
+		<ShortName>reportDTCByStatusMask</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCBSM</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client a list of DTCs and corresponding statuses matching a client defined status mask.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcSnapshotId</SubFunctionNameForProgrammer>
+		<Bit6to0>0x03</Bit6to0>
+		<ShortName>reportDTCSnapshotIdentification</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCSSI</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client all DTCSnapshot data record identifications [DTC number(s) and DTCSnapshot record number(s)].</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcSnapshotRecordByDtcNum</SubFunctionNameForProgrammer>
+		<Bit6to0>0x04</Bit6to0>
+		<ShortName>reportDTCSnapshotRecordByDTCNumber</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCSSBDTC</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the DTCSnapshot record(s) associated with a client defined DTC number and DTCSnapshot record number (FF16 for all records).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcStoredDataByRecordNum</SubFunctionNameForProgrammer>
+		<Bit6to0>0x05</Bit6to0>
+		<ShortName>reportDTCStoredDataByRecordNumber</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCSDBRN</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the DTCStoredDatarecord(s) associated with a client defined DTCStoredData record number (FF16 for all records).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcExtDataRecordByDtcNum</SubFunctionNameForProgrammer>
+		<Bit6to0>0x06</Bit6to0>
+		<ShortName>reportDTCExtDataRecordByDTCNumber</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCEDRBDN</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the DTCExtendedData record(s) associated with a client defined DTC number and DTCExtendedData record number (FF16 for all records, FE16 for all OBD records).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportNumOfDtcBySeverityMaskRecord</SubFunctionNameForProgrammer>
+		<Bit6to0>0x07</Bit6to0>
+		<ShortName>reportNumberOfDTCBySeverityMaskRecord</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RNODTCBSMR</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the number of DTCs matching a client defined severity mask record.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcBySeverityMaskRecord</SubFunctionNameForProgrammer>
+		<Bit6to0>0x08</Bit6to0>
+		<ShortName>reportDTCBySeverityMaskRecord</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCBSMR</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client a list of DTCs and corresponding statuses matching a client defined severity mask record.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportSeverityInformationOfDtc</SubFunctionNameForProgrammer>
+		<Bit6to0>0x09</Bit6to0>
+		<ShortName>reportSeverityInformationOfDTC</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RSIODTC</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the severity information of a specific DTC specified in the client request message.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportSuppDtc</SubFunctionNameForProgrammer>
+		<Bit6to0>0x0A</Bit6to0>
+		<ShortName>reportSupportedDTC</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RSUPDTC</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client a list of all DTCs and corresponding statuses supported within the server.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportFirstTestFailedDtc</SubFunctionNameForProgrammer>
+		<Bit6to0>0x0B</Bit6to0>
+		<ShortName>reportFirstTestFailedDTC</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RFTFDTC</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the first failed DTC to be detected by the server since the last clear of diagnostic information. Note that the information reported via this SubFunction parameter shall be independent of whether or not the DTC was confirmed or aged.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportFirstConfirmedDtc</SubFunctionNameForProgrammer>
+		<Bit6to0>0x0C</Bit6to0>
+		<ShortName>reportFirstConfirmedDTC</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RFCDTC</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the first confirmed DTC to be detected by the server since the last clear of diagnostic information. The information reported via this SubFunction parameter shall be independent of the aging process of confirmed DTCs (e.g. if a DTC ages such that its status is allowed to be reset, the first confirmed DTC record shall continue to be preserved by the server, regardless of any other DTCs that become confirmed afterwards).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportMostRecentTestFailedDtc</SubFunctionNameForProgrammer>
+		<Bit6to0>0x0D</Bit6to0>
+		<ShortName>reportMostRecentTestFailedDTC</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RMRTFDTC</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the most recent failed DTC to be detected by the server since the last clear of diagnostic information. Note that the information reported via this SubFunction parameter shall be independent of whether or not the DTC was confirmed or aged.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportMostRecentConfirmedDtc</SubFunctionNameForProgrammer>
+		<Bit6to0>0x0E</Bit6to0>
+		<ShortName>reportMostRecentConfirmedDTC</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RMRCDTC</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the most recent confirmed DTC to be detected by the server since the last clear of diagnostic information. Note that the information reported via this SubFunction parameter shall be independent of the aging process of confirmed DTCs (e.g. if a DTC ages such that its status is allowed to be reset, the first confirmed DTC record shall continue to be preserved by the server assuming no other DTCs become confirmed afterwards).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcFaultDetectionCounter</SubFunctionNameForProgrammer>
+		<Bit6to0>0x14</Bit6to0>
+		<ShortName>reportDTCFaultDetectionCounter</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCFDC</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client a list of current "prefailed" DTCs which have or have not yet been detected as "pending" or "confirmed".
+The intention of the DTCFaultDetectionCounter is a simple method to identify a growing or intermittent problem which can not be identified/read by the statusOfDTC byte of a particular DTC. The internal implementation of the DTCFaultDetectionCounter shall be vehicle manufacturer specific (e.g. number of bytes, signed versus unsigned, etc.) but the reported value shall be a scaled 1 byte signed value so that +127 (7F16) represents a test result of "failed" and any other non-zero positive value represents a test result of "prefailed". However DTCs with DTCFaultDetectionCounter with the value +127 shall not be reported according to below stated rule. The DTCFaultDetectionCounter shall be incremented by a vehicle manufacturer specific amount each time the test logic runs and indicates a fail for that test run.
+A reported DTCFaultDetectionCounter value greater than zero and less than +127 (i.e. 0116 to 7E16) indicates that the DTC enable criteria was met and that a non completed test result prefailed at least in one condition or threshold.
+Only DTCs with DTCFaultDetectionCounters with a non-zero positive value less than +127 (7F16) shall be reported.
+The DTCFaultDetectionCounter shall be decremented by a vehicle manufacturer specific amount each time the test logic runs and indicates a pass for that test run. If the DTCFaultDetectionCounter is decremented to zero or below the DTC shall no longer be reported in the positive response message. The value of the DTCFaultDetectionCounter shall not be maintained between operation cycles.
+If a ClearDiagnosticInformation service request is received the DTCFaultDetectionCounter value shall be reset to zero for all DTCs. Additional reset conditions shall be defined by the vehicle manufacturer. Refer to D.5 for example implementation details.
+</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcWithPermanentStatus</SubFunctionNameForProgrammer>
+		<Bit6to0>0x15</Bit6to0>
+		<ShortName>reportDTCWithPermanentStatus</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCWPS</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client a list of DTCs with "permanent DTC" status as described in 3.12.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcExtDataRecordByRecordNumber</SubFunctionNameForProgrammer>
+		<Bit6to0>0x16</Bit6to0>
+		<ShortName>reportDTCExtDataRecordByRecordNumber</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCEDBR</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the DTCExtendedData records associated with a client defined DTCExtendedData record number less than F016.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportUserDefMemDtcByStatusMask</SubFunctionNameForProgrammer>
+		<Bit6to0>0x17</Bit6to0>
+		<ShortName>reportUserDefMemoryDTCByStatusMask</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RUDMDTCBSM</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client a list of DTCs out of the user defined DTC memory and corresponding statuses matching a client defined status mask.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportUserDefMemDtcSnapshotRecordByDtcNum</SubFunctionNameForProgrammer>
+		<Bit6to0>0x18</Bit6to0>
+		<ShortName>reportUserDefMemoryDTCSnapshotRecordByDTCNumber</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RUDMDTCSSBDTC</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the DTCSnapshot record(s) – out of the user defined DTC memory - associated with a client defined DTC number and DTCSnapshot record number (FF16 for all records).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportUserDefMemDtcExtDataRecordByDtcNum</SubFunctionNameForProgrammer>
+		<Bit6to0>0x19</Bit6to0>
+		<ShortName>reportUserDefMemoryDTCExtDataRecordByDTCNumber</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RUDMDTCEDRBDN</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the DTCExtendedData record(s) – out of the user defined DTC memory - associated with a client defined DTC number and DTCExtendedData record number (FF16 for all records).</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcExtendedDataRecordId</SubFunctionNameForProgrammer>
+		<Bit6to0>0x1A</Bit6to0>
+		<ShortName>reportDTCExtendedDataRecordIdentification</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCEDI</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client the DTCs which supports a DTCExtendedDataRecord.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x1B to 0x41</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportWWHOBDDTCByMaskRecord</SubFunctionNameForProgrammer>
+		<Bit6to0>0x42</Bit6to0>
+		<ShortName>reportWWHOBDDTCByMaskRecord</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RWWHOBDDTCBMR</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client a list of WWH OBD DTCs and corresponding status and severity information matching a client defined status mask and severity mask record.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x43 to 0x54</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportWWHOBDDTCWithPermanentStatus</SubFunctionNameForProgrammer>
+		<Bit6to0>0x55</Bit6to0>
+		<ShortName>reportWWHOBDDTCWithPermanentStatus</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RWWHOBDDTCWPS</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client a list of WWH OBD DTCs with "permanent DTC" status as described in 3.12.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reportDtcInfoByDtcReadinessGroupId</SubFunctionNameForProgrammer>
+		<Bit6to0>0x56</Bit6to0>
+		<ShortName>reportDTCInformationByDTCReadinessGroupIdentifier</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>RDTCBRGI</Mnemonic>
+		<Details>This parameter specifies that the server shall transmit to the client a list of OBD DTCs which matches the DTCReadiness Group Identifier.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>readDtcInfo</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x57 to 0x7F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>testerPresent</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>none</SubFunctionNameForProgrammer>
+		<Bit6to0>0x00</Bit6to0>
+		<ShortName>zeroSubFunction</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ZSUBF</Mnemonic>
+		<Details>This parameter value is used to indicate that no SubFunction value beside the suppressPosRspMsgIndicationBit is supported by this service.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>testerPresent</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x01 to 0x7F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>enRxAndTx</SubFunctionNameForProgrammer>
+		<Bit6to0>0x00</Bit6to0>
+		<ShortName>enableRxAndTx</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ERXTX</Mnemonic>
+		<Details>This value indicates that the reception and transmission of messages shall be enabled for the specified communicationType.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>enRxAndDisTx</SubFunctionNameForProgrammer>
+		<Bit6to0>0x01</Bit6to0>
+		<ShortName>enableRxAndDisableTx</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ERXDTX</Mnemonic>
+		<Details>This value indicates that the reception of messages shall be enabled and the transmission shall be disabled for the specified communicationType.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>disRxAndEnTx</SubFunctionNameForProgrammer>
+		<Bit6to0>0x02</Bit6to0>
+		<ShortName>disableRxAndEnableTx</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>DRXETX</Mnemonic>
+		<Details>This value indicates that the reception of messages shall be disabled and the transmission shall be enabled for the specified communicationType.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>disRxAndTx</SubFunctionNameForProgrammer>
+		<Bit6to0>0x03</Bit6to0>
+		<ShortName>disableRxAndTx</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>DRXTX</Mnemonic>
+		<Details>This value indicates that the reception and transmission of messages shall be disabled for the specified communicationType.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>enRxAndDisTxWEnchancedAddrInfo</SubFunctionNameForProgrammer>
+		<Bit6to0>0x04</Bit6to0>
+		<ShortName>enableRxAndDisableTxWithEnhancedAddressInformation</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ERXDTXWEAI</Mnemonic>
+		<Details>This value indicates that the addressed bus master shall switch the related sub-bus segment to the diagnostic-only scheduling mode.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>enRxAndTxWEnhancedAddrInfo</SubFunctionNameForProgrammer>
+		<Bit6to0>0x05</Bit6to0>
+		<ShortName>enableRxAndTxWithEnhancedAddressInformation</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>ERXTXWEAI</Mnemonic>
+		<Details>This value indicates that the addressed bus master shall switch the related sub-bus segment to the application scheduling mode.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x06 to 0x3F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This range of values is reserved by this document for future definition.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>vehicleMfrSpecific</SubFunctionNameForProgrammer>
+		<Bit6to0>0x40 to 0x5F</Bit6to0>
+		<ShortName>vehicleManufacturerSpecific</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>VMS</Mnemonic>
+		<Details>This range of values is reserved for vehicle manufacturer specific use.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>sysSuppSpecific</SubFunctionNameForProgrammer>
+		<Bit6to0>0x60 to 0x7E</Bit6to0>
+		<ShortName>systemSupplierSpecific</ShortName>
+		<Cvt>U</Cvt>
+		<Mnemonic>SSS</Mnemonic>
+		<Details>This range of values is reserved for system supplier specific use.</Details>
+	</ServiceSub>
+	<ServiceSub>
+		<ServiceNameForProgrammer>commCtrl</ServiceNameForProgrammer>
+		<SubFunctionNameForProgrammer>reserved</SubFunctionNameForProgrammer>
+		<Bit6to0>0x7F</Bit6to0>
+		<ShortName>ISOSAEReserved</ShortName>
+		<Cvt>M</Cvt>
+		<Mnemonic>ISOSAERESRVD</Mnemonic>
+		<Details>This value is reserved by this document for future definition.</Details>
+	</ServiceSub>
+</ServiceSubs>

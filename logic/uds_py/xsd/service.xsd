@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:simpleType name="PermissionCode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="xa"/>
+			<xs:enumeration value="xb"/>
+			<xs:enumeration value="xc"/>
+			<xs:enumeration value="xd"/>
+			<xs:enumeration value="xe"/>
+			<xs:enumeration value="x"/>
+			<xs:enumeration value="not applicable"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="Service">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NameForProgrammer" type="xs:string"/>
+				<xs:element name="ShortName" type="xs:string"/>
+				<xs:element name="Hex" type="xs:string"/>
+				<xs:element name="DefaultSession" type="PermissionCode"/>
+				<xs:element name="NonDefaultSession" type="PermissionCode"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Services">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Service" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="Permission">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PermissionCode" type="xs:string"/>
+				<xs:element name="Description" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Permissions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Permission" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+</xs:schema>

@@ -1,0 +1,17 @@
+{
+	"files.associations": {
+		"numbers": "cpp",
+		"ostream": "cpp",
+		"string_view": "cpp",
+		"regex": "cpp",
+		"string": "cpp",
+		"deque": "cpp",
+		"forward_list": "cpp",
+		"list": "cpp",
+		"unordered_map": "cpp",
+		"unordered_set": "cpp",
+		"vector": "cpp",
+		"system_error": "cpp",
+		"typeinfo": "cpp"
+	}
+}

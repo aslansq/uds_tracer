@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Permissions>
+	<Permission>
+		<PermissionCode>xa</PermissionCode>
+		<Description>It is implementation specific whether the ResponseOnEvent service is also allowed during the defaultSession.</Description>
+	</Permission>
+	<Permission>
+		<PermissionCode>xb</PermissionCode>
+		<Description>Secured dataIdentifiers require a SecurityAccess service and therefore a non-default diagnostic session.</Description>
+	</Permission>
+	<Permission>
+		<PermissionCode>xc</PermissionCode>
+		<Description>Secured memory areas require a SecurityAccess service and therefore a non-default diagnostic session.</Description>
+	</Permission>
+	<Permission>
+		<PermissionCode>xd</PermissionCode>
+		<Description>A dataIdentifier can be defined dynamically in the default and non-default diagnostic session.</Description>
+	</Permission>
+	<Permission>
+		<PermissionCode>xe</PermissionCode>
+		<Description>Secured routines require a SecurityAccess service and therefore a non-default diagnostic session. A routine that requires to be stopped actively by the client also requires a non-default session.</Description>
+	</Permission>
+	<Permission>
+		<PermissionCode>not applicable</PermissionCode>
+		<Description>Not applicable</Description>
+	</Permission>
+	<Permission>
+		<PermissionCode>x</PermissionCode>
+		<Description>Supported</Description>
+	</Permission>
+</Permissions>

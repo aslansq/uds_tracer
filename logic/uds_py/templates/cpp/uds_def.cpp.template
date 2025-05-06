@@ -1,0 +1,131 @@
+#include "uds_def.h"
+
+namespace UdsDef {
+	ServSub::ServSub(
+		uint8_t id,
+		const QString &shortName,
+		const QString &detail
+	) :
+		idStart(id),
+		idEnd(id),
+		shortName(shortName),
+		detail(detail),
+		isRange(false)
+	{
+	}
+
+	ServSub::ServSub(
+		uint8_t idStart,
+		uint8_t idEnd,
+		const QString &shortName,
+		const QString &detail
+	) :
+		idStart(idStart),
+		idEnd(idEnd),
+		shortName(shortName),
+		detail(detail),
+		isRange(true)
+	{
+	}
+
+	bool ServSub::isThis(uint8_t id) const
+	{
+		if(id >= this->idStart && id <= this->idEnd) {
+			return true;
+		}
+		return false;
+	}
+
+
+	Serv::Serv(
+		ServEnum id,
+		const QString &shortName,
+		const QVector<const ServSub *> *sub
+	) :
+		id(id),
+		shortName(shortName),
+		sub(sub)
+	{
+	}
+
+{%-	for reqRespClass in reqRespClasses %}
+	{{reqRespClass.getName()}}::{{reqRespClass.getName()}} (const QVector<uint8_t> &packetRef) :
+		packet(packetRef)
+	{
+	}
+{%		for reqRespItem in reqRespClass.reqRespItems %}
+	bool {{reqRespClass.getName()}}::exist{{reqRespItem.getCapitalizedName()}}(void) const
+	{
+{%-			if reqRespItem.isSizeKnown == True %}
+		return packet.length() >= ({{reqRespItem.nameForProgrammer}}Pos + {{reqRespItem.nameForProgrammer}}Size);
+{%-			else %}
+		return packet.length() > {{reqRespItem.nameForProgrammer}}Pos;
+{%-			endif %}
+	}
+{%			if reqRespItem.isStdDataSize %}
+	{{reqRespItem.dataType}} {{reqRespClass.getName()}}::get{{reqRespItem.getCapitalizedName()}}(void) const
+	{
+{%-				if reqRespItem.isByte() %}
+		return packet[{{reqRespItem.nameForProgrammer}}Pos];
+{%-				else %}
+		{{reqRespItem.dataType}} ret = 0;
+		for(int i = 0; i < {{reqRespItem.nameForProgrammer}}Size; ++i) {
+			((uint8_t *)&ret)[i] = packet[{{reqRespItem.nameForProgrammer}}Pos + i];
+		}
+		return ret;
+{%-				endif %}
+	}
+{%			else %}
+	void {{reqRespClass.getName()}}::get{{reqRespItem.getCapitalizedName()}}(QVector<uint8_t> &outRef) const
+	{
+		outRef.clear();
+{%-		if reqRespItem.isSizeKnown %}
+		int outSize = {{reqRespItem.nameForProgrammer}}Size;
+{%-		else %}
+		int outSize = packet.length() - {{reqRespItem.nameForProgrammer}}Pos;
+{%-		endif %}
+		for(int i = 0; i < outSize; ++i) {
+			outRef.append(packet[{{reqRespItem.nameForProgrammer}}Pos + i]);
+		}
+	}
+{%-			endif -%}
+{%-		endfor %}
+{%	endfor %}
+
+{%	for servItem in servCont.getItems() -%}
+{%-		if servItem.isContEmpty() == False %}
+{%-			for servSubItem in servItem.servSubCont.getItems() %}
+	const ServSub serv{{servItem.getCapitalizedName()}}Sub{{servSubItem.getCapitalizedName()}} (
+{%-				if servSubItem.isHexRange == False %}
+		static_cast<uint8_t>(ServSub{{servItem.getCapitalizedName()}}::{{servSubItem.nameForProgrammer}}), // {{servSubItem.name}}
+{%-				else %}
+		static_cast<uint8_t>(ServSub{{servItem.getCapitalizedName()}}::{{servSubItem.nameForProgrammer}}Start), // {{servSubItem.name}}
+		static_cast<uint8_t>(ServSub{{servItem.getCapitalizedName()}}::{{servSubItem.nameForProgrammer}}End), // {{servSubItem.name}}
+{%-				endif %}
+		"{{servSubItem.name}}",
+		"{{servSubItem.detail}}"
+	);
+{%-			endfor %}
+{%		endif -%}
+{%-	endfor %}
+
+{%	for servItem in servCont.getItems() %}
+	const QVector<const ServSub *> serv{{servItem.getCapitalizedName()}}Sub = {
+{%-		if servItem.isContEmpty() == False %}
+{%-			for servSubItem in servItem.servSubCont.getItems() %}
+		&serv{{servItem.getCapitalizedName()}}Sub{{servSubItem.getCapitalizedName()}},
+{%-			endfor %}
+{%		endif %}
+	};
+{%	endfor %}
+
+{%	for servItem in servCont.getItems() %}
+	const Serv serv{{servItem.getCapitalizedName()}}(ServEnum::{{servItem.nameForProgrammer}}, "{{servItem.shortName}}", &serv{{servItem.getCapitalizedName()}}Sub);
+{%-	endfor %}
+
+	const QMap<ServEnum, const Serv *> serv = {
+{%-	for servItem in servCont.getItems() %}
+		{ServEnum::{{servItem.nameForProgrammer}}, &serv{{servItem.getCapitalizedName()}}},
+{%-	endfor %}
+	};
+}

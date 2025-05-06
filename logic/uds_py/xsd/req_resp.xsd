@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="ReqRespItem">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MemClassName" type="xs:string"/>
+				<xs:element name="NameForProgrammer" type="xs:string"/>
+				<xs:element name="ReqResp" type="xs:string"/>
+				<xs:element name="DataByte" type="xs:string"/>
+				<xs:element name="Size" type="xs:string"/>
+				<xs:element name="Detail" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="ReqResp">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ReqRespItem" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

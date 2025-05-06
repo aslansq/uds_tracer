@@ -1,0 +1,108 @@
+#ifndef UDS_DEF_H
+#define UDS_DEF_H
+
+#include <QMap>
+#include <QString>
+#include <QVector>
+
+namespace UdsDef {
+	enum class ServEnum {
+{%-	for servItem in servCont.getItems() %}
+		{{servItem.nameForProgrammer}} = {{servItem.hexStr}}, // {{servItem.shortName}}
+{%-	endfor %}
+	};
+
+{%	for servItem in servCont.getItems() -%}
+{%-		if servItem.isContEmpty() == False %}
+	enum class ServSub{{servItem.getCapitalizedName()}} {
+{%-			for servSubItem in servItem.servSubCont.getItems() %}
+{%-				if servSubItem.isHexRange == False %}
+		{{servSubItem.nameForProgrammer}} = {{servSubItem.hexStartStr}}, // {{servSubItem.name}}
+{%-				else %}
+		{{servSubItem.nameForProgrammer}}Start = {{servSubItem.hexStartStr}}, // {{servSubItem.name}}
+		{{servSubItem.nameForProgrammer}}End = {{servSubItem.hexEndStr}}, // {{servSubItem.name}}
+{%-				endif -%}
+{%-			endfor %}
+	};
+{%		endif -%}
+{%-	endfor %}
+
+{%-	for reqRespClass in reqRespClasses %}
+	class {{reqRespClass.getName()}} {
+	public:
+		{{reqRespClass.getName()}}(const QVector<uint8_t> &packetRef);
+{%-		for reqRespItem in reqRespClass.reqRespItems %}
+		bool exist{{reqRespItem.getCapitalizedName()}}(void) const;
+{%-			if reqRespItem.isStdDataSize == False %}
+		void get{{reqRespItem.getCapitalizedName()}}(QVector<uint8_t> &outRef) const;
+{%-			else %}
+		{{reqRespItem.dataType}} get{{reqRespItem.getCapitalizedName()}}(void) const;
+{%-			endif -%}
+{%-		endfor %}
+{%-		for reqRespItem in reqRespClass.reqRespItems %}
+{%-		endfor %}
+{%-		for reqRespItem in reqRespClass.reqRespItems %}
+		const uint8_t {{reqRespItem.nameForProgrammer}}Pos = {{reqRespItem.idx}};
+{%-		endfor %}
+{%-		for reqRespItem in reqRespClass.reqRespItems %}
+{%-			if reqRespItem.isSizeKnown == True %}
+		const uint8_t {{reqRespItem.nameForProgrammer}}Size = {{reqRespItem.dataSize}};
+{%-			endif -%}
+{%-		endfor %}
+		const QVector<uint8_t> packet;
+	};
+{%	endfor %}
+
+	class ServSub {
+	public:
+		ServSub(
+			uint8_t id,
+			const QString &shortName,
+			const QString &detail
+		);
+		ServSub(
+			uint8_t idStart,
+			uint8_t idEnd,
+			const QString &shortName,
+			const QString &detail
+		);
+		bool isThis(uint8_t id) const;
+		const uint8_t idStart;
+		const uint8_t idEnd;
+		const QString shortName;
+		const QString detail;
+		const bool isRange;
+	};
+
+	class Serv {
+	public:
+		Serv(
+			ServEnum id,
+			const QString &shortName,
+			const QVector<const ServSub *> *sub
+		);
+		const ServEnum id;
+		const QString shortName;
+		const QVector<const ServSub *> *sub;
+	};
+
+{%	for servItem in servCont.getItems() -%}
+{%-		if servItem.isContEmpty() == False %}
+{%-			for servSubItem in servItem.servSubCont.getItems() %}
+	extern const ServSub serv{{servItem.getCapitalizedName()}}Sub{{servSubItem.getCapitalizedName()}};
+{%-			endfor %}
+{%		endif -%}
+{%-	endfor %}
+
+{%	for servItem in servCont.getItems() %}
+	extern const QVector<const ServSub *> serv{{servItem.getCapitalizedName()}}Sub;
+{%-	endfor %}
+
+{%	for servItem in servCont.getItems() %}
+	extern const Serv serv{{servItem.getCapitalizedName()}};
+{%-	endfor %}
+
+	extern const QMap<ServEnum, const Serv *> serv;
+}
+
+#endif // UDS_DEF_H
