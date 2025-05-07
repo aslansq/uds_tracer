@@ -1,3 +1,11 @@
+/**
+ * @defgroup traceuds_h
+ * @{
+ * @file traceuds.h
+ * @brief This is the main way to trace UDS packets.
+ * It is used to log UDS packets in JSON format. JSON format is supported by Perfetto.
+ */
+
 #ifndef TRACEUDS_H
 #define TRACEUDS_H
 
@@ -32,3 +40,5 @@ private:
 };
 
 #endif // TRACEUDS_H
+
+/// @}

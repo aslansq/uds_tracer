@@ -23,4 +23,4 @@ To compile the tool, navigate to the main directory and run the `build.sh` scrip
 ./build.sh
 ```
 
-For more details on the system's architecture, refer to the [Architecture](docs/Architecture.md) page.
+For more details on the system's architecture, refer to the [Architecture](doc/Arhitecture.md) page.

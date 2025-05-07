@@ -1,3 +1,11 @@
+/**
+ * @defgroup util_h
+ * @{
+ * @file util.h
+ * @brief Ideally standard output should be only used through these util log functions.
+ * Purpose of this functions is that, we could set output to xml,json... does not matter.
+ * If somebody wants to script it, he can do it easily.
+ */
 #ifndef UTIL_H
 #define UTIL_H
 
@@ -13,9 +21,9 @@ enum class LogType {
 	CanMsg,
 	UdsReqMsg,
 	UdsRespMsg,
-	CmdReqThrow,
-	CmdRespThrow,
-	GenericThrow
+	CmdReqThrow,  //!< throws runtime error with log
+	CmdRespThrow, //!< throws runtime error with log
+	GenericThrow  //!< throws runtime error with log
 };
 
 enum class LogSt {
@@ -25,6 +33,7 @@ enum class LogSt {
 	Unknown
 };
 
+/// @brief Loggin properties. Each one is mapped to a string which is used for json/xml.
 enum class LogProp {
 	Timestamp,
 	Type,
@@ -52,5 +61,6 @@ namespace Util
 	void log(LogType type, const QString &msgRef);
 } // namespace name
 
-
 #endif // UTIL_H
+
+/// @}

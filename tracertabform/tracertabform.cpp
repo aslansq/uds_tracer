@@ -165,12 +165,6 @@ void TracerTabForm::onCanConnectionEvented(bool isConnected)
 	ui->connectPushButton->setChecked(isConnected);
 }
 
-void TracerTabForm::onCanMsgReceived(const CanMsg &canMsgRef)
-{
-	QString s = Can::getMsgStr(canMsgRef);
-	addTrace(TraceLevelEnum::Info, s);
-}
-
 void TracerTabForm::on_reqIdLineEdit_editingFinished()
 {
 	this->configTracer.setReqIdHex(ui->reqIdLineEdit->text());

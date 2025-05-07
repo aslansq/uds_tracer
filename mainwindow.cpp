@@ -28,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent, Cli &cliRef)
 	connect(&this->cliRef, &Cli::configAllLoaded, this->tracerTabFormPtr, &TracerTabForm::onConfigAllLoaded);
 	connect(&this->cliRef, &Cli::configAllLoaded, this->canTabFormPtr, &CanTabForm::onConfigAllLoaded);
 	connect(&this->cliRef, &Cli::canConnectionEvented, this->tracerTabFormPtr, &TracerTabForm::onCanConnectionEvented);
-	//connect(&this->cliRef, &Cli::canMsgReceived, this->tracerTabFormPtr, &TracerTabForm::onCanMsgReceived);
 	connect(&this->cliRef, &Cli::canConnectionEvented, this, &MainWindow::onCanConnectionEvented);
 	connect(&this->cliRef, &Cli::udsPacketReceived, this->tracerTabFormPtr, &TracerTabForm::onUdsPacketReceived);
 
