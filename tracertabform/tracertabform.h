@@ -75,7 +75,11 @@ public slots:
 	/// @brief Used just for logging in trace list widget.
 	void onCanConnectionEvented(bool isConnected);
 	/// @brief Used to show UDS packet in trace list widget.
-	void onUdsPacketReceived(bool isReq, const QVector<UdsInfo> &packetInfoRef);
+	void onUdsPacketReceived(
+		bool isReq,
+		const QString &rawCanMsgStrRef,
+		const QVector<UdsInfo> &packetInfoRef
+	);
 
 private slots:
 	void on_reqIdLineEdit_editingFinished();

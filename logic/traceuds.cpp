@@ -51,7 +51,8 @@ void TraceUds::writeJsonItem(
 	const QString &name,
 	const QString &hexStr,
 	const QString &detail,
-	uint64_t byteIdx
+	uint64_t byteIdx,
+	const QString &rawStrRef
 ) {
 	if(this->logFilePtr == nullptr) {
 		return;
@@ -69,7 +70,8 @@ void TraceUds::writeJsonItem(
 		"{\"name\":\"%8\", "
 		"\"detail\":\"%9\", "
 		"\"hex\": \"%10\", "
-		"\"timestamp\": \"%11\""
+		"\"timestamp\": \"%11\", "
+		"\"raw\": \"%12\""
 		"}},\n";
 
 	QString catStr = isReq ? "Reeq" : "Resp";
@@ -93,6 +95,7 @@ void TraceUds::writeJsonItem(
 	.arg(detail) // 9
 	.arg(hexStr) // 10
 	.arg(timestampStr) // 11
+	.arg(rawStrRef) // 12
 	;
 
 	this->logFilePtr->write(s.toUtf8());
@@ -100,6 +103,7 @@ void TraceUds::writeJsonItem(
 
 void TraceUds::onUdsPacketReceived(
 	bool isReq,
+	const QString &rawCanMsgStrRef,
 	const QVector<UdsInfo> &packetInfoRef
 )
 {
@@ -136,7 +140,8 @@ void TraceUds::onUdsPacketReceived(
 		name,
 		packetInfoRef[0].getHexStr(),
 		name,
-		byteIdx
+		byteIdx,
+		rawCanMsgStrRef
 	);
 
 	for(int i = 1; i < packetInfoRef.length(); ++i) {
@@ -149,7 +154,8 @@ void TraceUds::onUdsPacketReceived(
 			packetInfoRef[i].getHexStr(),
 			packetInfoRef[i].getHexStr(),
 			packetInfoRef[i].name,
-			byteIdx
+			byteIdx,
+			rawCanMsgStrRef
 		);
 		writeJsonItem(
 			false,
@@ -158,7 +164,8 @@ void TraceUds::onUdsPacketReceived(
 			packetInfoRef[i].getHexStr(),
 			packetInfoRef[i].getHexStr(),
 			packetInfoRef[i].name,
-			byteIdx + numOfBytes
+			byteIdx + numOfBytes,
+			rawCanMsgStrRef
 		);
 
 		writeJsonItem(
@@ -168,7 +175,8 @@ void TraceUds::onUdsPacketReceived(
 			packetInfoRef[i].name,
 			packetInfoRef[i].getHexStr(),
 			packetInfoRef[i].name,
-			byteIdx
+			byteIdx,
+			rawCanMsgStrRef
 		);
 		writeJsonItem(
 			false,
@@ -177,7 +185,8 @@ void TraceUds::onUdsPacketReceived(
 			packetInfoRef[i].name,
 			packetInfoRef[i].getHexStr(),
 			packetInfoRef[i].name,
-			byteIdx + numOfBytes
+			byteIdx + numOfBytes,
+			rawCanMsgStrRef
 		);
 
 		byteIdx += numOfBytes;
@@ -190,7 +199,8 @@ void TraceUds::onUdsPacketReceived(
 		name,
 		packetInfoRef[0].getHexStr(),
 		name,
-		byteIdx
+		byteIdx,
+		rawCanMsgStrRef
 	);
 
 	this->logFilePtr->flush();

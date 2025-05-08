@@ -25,6 +25,5 @@ cd "$thisDirPath" || ungracefulExit "Failed to change directory to $thisDirPath"
 rm -rf output
 mkdir -p output
 cp build/uds_tracer output || ungracefulExit "copying binaries failed"
-cp logic/example/* output || ungracefulExit "copying example failed"
 
 echo "All successful."

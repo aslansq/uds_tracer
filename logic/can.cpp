@@ -40,7 +40,7 @@ void Can::startRxThread(void)
 
 QString Can::getMsgStr(const CanMsg &canMsgRef)
 {
-	QString s = QString("ID: %1, Data Length: %2, Data: ")
+	QString s = QString("ID: %1, DL: %2, ")
 		.arg(canMsgRef.id, 0, 16)
 		.arg(canMsgRef.dataLength, 2, 16, QChar('0'));
 	for(int i = 0; i < canMsgRef.dataLength; ++i) {

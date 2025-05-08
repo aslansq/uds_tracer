@@ -23,6 +23,7 @@ public:
 public slots:
 	void onUdsPacketReceived(
 		bool isReq,
+		const QString &rawCanMsgStrRef,
 		const QVector<UdsInfo> &packetInfoRef
 	);
 private:
@@ -35,7 +36,8 @@ private:
 		const QString &name,
 		const QString &hexStr,
 		const QString &detail,
-		uint64_t timestamp
+		uint64_t byteIdx,
+		const QString &rawStrRef
 	);
 };
 

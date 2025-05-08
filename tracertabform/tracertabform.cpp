@@ -98,8 +98,13 @@ void TracerTabForm::addTrace(TraceLevelEnum level, QString s)
 	);
 }
 
-void TracerTabForm::onUdsPacketReceived(bool isReq, const QVector<UdsInfo> &packetInfoRef)
+void TracerTabForm::onUdsPacketReceived(
+	bool isReq,
+	const QString &rawCanMsgStrRef,
+	const QVector<UdsInfo> &packetInfoRef
+)
 {
+	(void)rawCanMsgStrRef;
 	if(isReq) {
 		QString s = "";
 		for(const UdsInfo &info : packetInfoRef) {
