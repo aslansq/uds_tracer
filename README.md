@@ -7,6 +7,9 @@ This tool supports the following devices for CAN communication:
 
 ![GUI Overview](doc/assets/gui.gif)
 
+### User Manual
+For detailed usage instructions and advanced features, refer to the [Wiki page](https://github.com/aslansq/uds_tracer/wiki) of this repository.
+
 ### Requirements
 
 To use this tool, ensure the following dependencies are installed:
@@ -23,4 +26,13 @@ To compile the tool, navigate to the main directory and run the `build.sh` scrip
 ./build.sh
 ```
 
-For more details on the system's architecture, refer to the [Architecture](doc/Arhitecture.md) page.
+### Source Code Documentation
+
+1. To properly view the system's architecture and documentation, use Doxygen to generate the documentation. Follow these steps:
+```bash
+cd doc
+doxygen doxyfile
+```
+2. Open the generated `index.html` file located in the `doc/output/html` directory in your web browser to explore the documentation.
+
+
