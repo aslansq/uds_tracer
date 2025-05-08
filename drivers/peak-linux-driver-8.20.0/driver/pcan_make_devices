@@ -1,0 +1,72 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL 2.0
+#
+# This is a small script to generate device node entries at /dev for
+# PCAN devices. The script uses the entries from /proc/devices.
+# This means the driver have to be installed before using the script.
+#
+# Copyright (C) 2001-2020  PEAK System-Technik GmbH <www.peak-system.com>
+#
+# Contact:     <linux@peak-system.com>
+# Maintainer:  Stephane Grosjean <s.grosjean@peak-system.com>
+# Author:      Klaus Hitschler <klaus.hitschler@gmx.de>
+#
+group="root"
+mode="666"
+usage="Usage: pcan_make_devices count-of-device-node-for-each-type [--help | -h]"
+
+if test $# -gt 0; then
+  case $1 in
+  [1-8])  ;;
+  "--help" | "-h" | "-?" | "/?")
+          echo ""
+          echo $usage
+          echo ""
+          echo "Info: Create \"count-of-device-node-for-each-type\" device nodes for each PCAN-type."
+          echo ""
+          echo "(c) Klaus Hitschler and PEAK System 2009"
+          echo "www.peak-system.com"
+          echo ""
+          exit 1 ;;
+  "--debug" | "-d") DEBUG=1 ;;
+  esac
+fi
+
+if test $UID -ne 0; then
+  echo "ERROR: you must be root to use pcan_make_devices!"
+  echo ""
+  exit 1
+fi
+
+# check command line arguments
+if test $# -le 0; then
+  echo "ERROR: please provide the number of devices per interface type!"
+  echo $usage
+  echo ""
+  exit 1
+fi
+
+# get major number from /proc/devices
+major=`cat /proc/devices | awk "\\$2==\"pcan\" {print \\$1}"`
+
+# make device nodes
+if test "$major"; then
+  j=0;
+  while test $j -le 44; do
+    k=$[$j + ($1 - 1)];
+    i=$j;
+    while test $i -le $k; do
+      rm -f /dev/pcan$i;
+      mknod /dev/pcan$i c $major $i;
+      chgrp $group /dev/pcan$i;
+      chmod $mode  /dev/pcan$i;
+      i=$[$i + 1];
+    done;
+  j=$[$j + 8];
+  done;
+else
+  echo "Info: Please do first a \"modprobe pcan.o or modprobe pcan.ko .. (depends on kernel version)\"";
+fi
+
+# end of script
+

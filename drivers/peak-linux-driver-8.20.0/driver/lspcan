@@ -1,0 +1,265 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL 2.0
+#
+# Small tool that lists all the PEAK-System CAN/CAN-FD devices found
+# by the pcan driver (see also lspcan -h).
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Author: Stephane Grosjean <s.grosjean@peak-system.com>
+# Contact: <linux@peak-system.com>
+# Copyright (c) 2001-2021 PEAK-System GmbH <www.peak-system.com>
+#
+MYSELF=`basename $0`
+SYSFSROOT="/sys/class"
+DRV="pcan"
+DRVROOT=${SYSFSROOT}/$DRV
+ECHO_E=echo
+#ECHO_E="echo -e"
+ECHO=/bin/echo
+
+# -- usage
+usage()
+{
+	$ECHO "\
+$MYSELF: list PEAK-System CAN/CANFD devices found by pcan driver
+
+Option:
+-a | --all        equivalent to: -i -s
+-f | --forever    forever loop on devices (^C to stop)
+-h | --help       display this help
+-i | --info       information about pcan devices
+-s | --stats      statistics about pcan devices
+-t | --title      display a title line over columns
+-T | --tree       tree version
+-v | --version    display $DRV version
+"
+	exit 0
+}
+
+# -- main
+devlist=""
+fmt="l"
+display="q"
+forever="n"
+title="n"
+for arg in "$@"; do
+	case "$arg" in
+
+	"--help" | "-h" )
+		usage
+		;;
+
+	"--tree" | "-T" )
+		fmt="t"
+		;;
+
+	"--info" | "-i" )
+		display="i"
+		;;
+
+	"--all" | "-a" )
+		display="a"
+		;;
+
+	"--forever" | "-f" )
+		forever="y"
+		;;
+
+	"--stats" | "-s" )
+		display="s"
+		;;
+
+	"--title" | "-t" )
+		title="y"
+		;;
+
+	"--version" | "-v" )
+		if [ -f "$DRVROOT/version" ]; then
+			cat $DRVROOT/version
+			exit 0
+		fi
+		$ECHO "No pcan driver v8 is loaded"
+		exit 2
+		;;
+	* )
+		devlist="$devlist $arg"
+		;;
+
+	esac
+done
+
+if [ ! -f $DRVROOT/version ]; then
+	$ECHO "$MYSELF can't run over versions of pcan driver less than 8.x"
+	exit 1
+fi
+
+[ -z "$devlist" ] && devlist=`ls $DRVROOT`
+
+# forever loop
+while :; do
+
+d=0
+
+#if [ "$display" == "a" ]; then
+#	pcanver=`cat $DRVROOT/version`
+#	$ECHO "pcan version: $pcanver"
+#fi
+
+if [ "$title" = "y" ]; then
+	case "$display" in
+
+	"i" )	# info
+		$ECHO -e "dev name\tport\tirq\tclock\tbtrs\tbus"
+		;;
+
+	"s" )	# stats
+		$ECHO -e "dev name\tport\tbus\t%bus\trx\t%fifo\ttx\t%fifo\terr"
+		;;
+
+	"a" )	# all
+		$ECHO -e "dev name\tport\tirq\tclock\tbtrs\tbus\t%bus\trx\ttx\terr"
+		;;
+	esac
+fi
+
+for dev in $devlist; do
+	[ ! -d $DRVROOT/$dev ] && continue
+
+	line="$dev\t"
+	d=`expr $d + 1`
+
+	# simple "ls" mode
+	if [ "$display" = "q" ]; then
+		$ECHO -e -n $line
+		if [ $d -ge 5 ]; then
+			echo
+			d=0
+		fi
+		continue
+	fi
+
+	prodname=`cat $DRVROOT/$dev/adapter_name`
+	cardidx=`cat $DRVROOT/$dev/adapter_number`
+	brdname="[${prodname} ${cardidx}]"
+
+	btr=`cat $DRVROOT/$dev/nom_bitrate`
+	if [ $btr -ge 1000000 ]; then
+		btr=`expr $btr / 1000000`M
+	elif [ $btr -ge 1000 ]; then
+		btr=`expr $btr / 1000`k
+	fi
+
+	dbtr=""
+	if [ -f $DRVROOT/$dev/data_bitrate ]; then
+		dbtr=`cat $DRVROOT/$dev/data_bitrate`
+		if [ $dbtr -ge 1000000 ]; then
+			dbtr=`expr $dbtr / 1000000`M
+		elif [ $dbtr -ge 1000 ]; then
+			dbtr=`expr $dbtr / 1000`k
+		elif [ $dbtr -eq 0 ]; then
+			dbtr=""
+		fi
+	fi
+	[ -n "$dbtr" ] && btr="$btr+$dbtr"
+
+	clk=`cat $DRVROOT/$dev/clock`
+	if [ $clk -ge 1000000 ]; then
+		clk=`expr $clk / 1000000`MHz
+	elif [ $btr -ge 1000 ]; then
+		clk=`expr $clk / 1000`kHz
+	fi
+
+	bus=`cat $DRVROOT/$dev/bus_state`
+	case $bus in
+
+	0 )	# PCANFD_UNKNOWN
+		bus="CLOSED"
+		;;
+
+	1 )	# PCANFD_ERROR_ACTIVE
+		bus="ACTIVE"
+		;;
+
+	2 )	# PCANFD_ERROR_WARNING
+		bus="WARNING"
+		;;
+
+	3 )	# PCANFD_ERROR_PASSIVE
+		bus="PASSIVE"
+		;;
+
+	4 )	# PCANFD_ERROR_BUSOFF
+		bus="BUSOFF"
+		;;
+
+	esac
+
+	canidx=`cat $DRVROOT/$dev/ctrlr_number`
+	case "$fmt" in
+
+	"t" )	# tree
+		[ $canidx -eq 0 ] && $ECHO "${brdname}"
+		line=" |_ $line"
+		;;
+	esac
+
+	rxcnt=`cat $DRVROOT/$dev/read`
+	txcnt=`cat $DRVROOT/$dev/write`
+	errcnt=`cat $DRVROOT/$dev/errors`
+
+	if [ -f $DRVROOT/$dev/bus_load ]; then
+		bload=`cat $DRVROOT/$dev/bus_load`
+	else
+		bload="-"
+	fi
+
+	line="${line}CAN`expr $canidx + 1`"
+
+	case "$display" in
+
+	"i" )	# info
+		irq=`cat $DRVROOT/$dev/irq`
+		[ $irq -eq 0 ] && irq="-"
+		line="$line\t$irq\t$clk\t$btr\t$bus"
+		;;
+
+	"s" )	# stats
+		if [ -f $DRVROOT/$dev/rx_fifo_ratio ]; then
+			rxratio=`cat $DRVROOT/$dev/rx_fifo_ratio`
+		else
+			rxratio="n/a"
+		fi
+		txratio=`cat $DRVROOT/$dev/tx_fifo_ratio`
+		line="$line\t$bus\t$bload\t$rxcnt\t$rxratio\t$txcnt\t$txratio\t$errcnt"
+		;;
+
+	"a" )	# all
+		irq=`cat $DRVROOT/$dev/irq`
+		[ $irq -eq 0 ] && irq="-"
+		line="${line}\t$irq\t$clk\t$btr\t$bus"
+		line="${line}\t$bload\t$rxcnt\t$txcnt\t$errcnt"
+		;;
+	esac
+
+	$ECHO -e $line
+done
+
+[ "$forever" != "y" ] && break
+sleep 1
+clear
+done
+
+echo
