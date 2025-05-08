@@ -21,6 +21,8 @@ Cli::Cli(QObject *parent) :
 	uds(),
 	reqCanId(0),
 	respCanId(0),
+	reqRawCanIsoTp(),
+	respRawCanIsoTp(),
 	traceUds(),
 	isCanConnected(false),
 	canLogFilePtr(nullptr),
@@ -293,7 +295,6 @@ void Cli::onCanMsgReceived(const CanMsg &canMsgRef)
 	QVector<uint8_t> localVector;
 
 	QString s = Can::getMsgStr(canMsgRef);
-	//Util::log(LogType::CanMsg, LogSt::Ok, s);
 
 	if(this->canLogFilePtr != nullptr) {
 		uint8_t rawCanMsg[sizeof(CanMsg)];
@@ -308,37 +309,39 @@ void Cli::onCanMsgReceived(const CanMsg &canMsgRef)
 		this->canLogFilePtr->write(reinterpret_cast<const char *>(&c), 1);
 	}
 
-	{
-		if(canMsgRef.id == this->reqCanId) {
-			this->reqIsoTp.on_can_message(canMsgRef.data, canMsgRef.dataLength);
-		} else if(canMsgRef.id == this->respCanId) {
-			this->respIsoTp.on_can_message(canMsgRef.data, canMsgRef.dataLength);
+	if(canMsgRef.id == this->reqCanId) {
+		this->reqRawCanIsoTp.append(canMsgRef);
+		this->reqIsoTp.on_can_message(canMsgRef.data, canMsgRef.dataLength);
+	} else if(canMsgRef.id == this->respCanId) {
+		this->respRawCanIsoTp.append(canMsgRef);
+		this->respIsoTp.on_can_message(canMsgRef.data, canMsgRef.dataLength);
+	}
+
+	for(int i = 0; i < 10; ++i) {
+		this->reqIsoTp.poll();
+		outSize = 0;
+		isoTpRet = this->reqIsoTp.receive(localArr, (uint16_t)sizeof(localArr), &outSize);
+
+		if(isoTpRet == IsoTpRet::OK) {
+			localVector.clear();
+			for(int i = 0; i < (int)outSize; ++i) {
+				localVector.append(localArr[i]);
+			}
+			udsReqMsg(localVector);
+			this->reqRawCanIsoTp.clear();
 		}
 
-		for(int i = 0; i < 10; ++i) {
-			this->reqIsoTp.poll();
-			outSize = 0;
-			isoTpRet = this->reqIsoTp.receive(localArr, (uint16_t)sizeof(localArr), &outSize);
+		this->respIsoTp.poll();
+		outSize = 0;
+		isoTpRet = this->respIsoTp.receive(localArr, (uint16_t)sizeof(localArr), &outSize);
 
-			if(isoTpRet == IsoTpRet::OK) {
-				localVector.clear();
-				for(int i = 0; i < (int)outSize; ++i) {
-					localVector.append(localArr[i]);
-				}
-				udsReqMsg(localVector);
+		if(isoTpRet == IsoTpRet::OK) {
+			localVector.clear();
+			for(int i = 0; i < (int)outSize; ++i) {
+				localVector.append(localArr[i]);
 			}
-
-			this->respIsoTp.poll();
-			outSize = 0;
-			isoTpRet = this->respIsoTp.receive(localArr, (uint16_t)sizeof(localArr), &outSize);
-
-			if(isoTpRet == IsoTpRet::OK) {
-				localVector.clear();
-				for(int i = 0; i < (int)outSize; ++i) {
-					localVector.append(localArr[i]);
-				}
-				udsRespMsg(localVector);
-			}
+			udsRespMsg(localVector);
+			this->respRawCanIsoTp.clear();
 		}
 	}
 }
@@ -349,9 +352,27 @@ void Cli::udsReqMsg(const QVector<uint8_t> &data)
 		return;
 	}
 	QVector<UdsInfo> packetInfo;
+	QString s = "";
+	
 	this->uds.getReqInfo(data, packetInfo);
-	Util::log(LogType::UdsReqMsg, LogSt::Ok, packetInfo[0].getHexStr(10));
-	emit udsPacketReceived(true, packetInfo);
+	
+	for(int i = 0; i < this->reqRawCanIsoTp.length() && i < 2; ++i) {
+		s += Can::getMsgStr(this->reqRawCanIsoTp[i]) + "\\n";
+	}
+	s = this->reqRawCanIsoTp.length() > 2 ? (s + "\\n...") : s;
+
+	// printing is too slow, comment out if you really need it
+	//Util::log(
+	//	LogType::CanMsg,
+	//	LogSt::Ok,
+	//	s
+	//);
+	Util::log(
+		LogType::UdsReqMsg,
+		LogSt::Ok,
+		packetInfo[0].getHexStr(10)
+	);
+	emit udsPacketReceived(true, s, packetInfo);
 }
 void Cli::udsRespMsg(const QVector<uint8_t> &data)
 {
@@ -359,9 +380,24 @@ void Cli::udsRespMsg(const QVector<uint8_t> &data)
 		return;
 	}
 	QVector<UdsInfo> packetInfo;
+	QString s = "";
 	this->uds.getRespInfo(data, packetInfo);
-	Util::log(LogType::UdsRespMsg, LogSt::Ok, packetInfo[0].getHexStr(10));
-	emit udsPacketReceived(false, packetInfo);
+	for(int i = 0; i < this->respRawCanIsoTp.length() && i < 2; ++i) {
+		s += Can::getMsgStr(this->respRawCanIsoTp[i]) + "\\n";
+	}
+	s = this->respRawCanIsoTp.length() > 2 ? (s + "\\n...") : s;
+	// printing is too slow, comment out if you really need it
+	//Util::log(
+	//	LogType::CanMsg,
+	//	LogSt::Ok,
+	//	s
+	//);
+	Util::log(
+		LogType::UdsRespMsg,
+		LogSt::Ok,
+		packetInfo[0].getHexStr(10)
+	);
+	emit udsPacketReceived(false, s, packetInfo);
 }
 
 QThread* Cli::createInputThread(void)

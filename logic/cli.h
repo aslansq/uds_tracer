@@ -27,6 +27,7 @@ signals:
 	void canConnectionEvented(bool isConnected);
 	void udsPacketReceived(
 		bool isReq,
+		const QString &rawCanMsgStrRef,
 		const QVector<UdsInfo> &packetInfoRef
 	);
 public slots:
@@ -43,6 +44,8 @@ private:
 	uint8_t respRecvBfrArr[10240];
 	uint32_t reqCanId;
 	uint32_t respCanId;
+	QVector<CanMsg> reqRawCanIsoTp;
+	QVector<CanMsg> respRawCanIsoTp;
 	TraceUds traceUds;
 	bool isCanConnected;
 	bool libMode;
