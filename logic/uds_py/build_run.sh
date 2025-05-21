@@ -17,7 +17,8 @@ cd "$thisDirPath" || ungracefulExit changing directory to $thisDirPath failed
 rm -rf ./output
 mkdir -p ./output
 
-python3 uds.py || ungracefulExit running uds.py failed
+python3 uds.py --template templates/cpp/uds_def.cpp.template --output output || ungracefulExit running uds.py for cpp failed
+python3 uds.py --template templates/cpp/uds_def.h.template --output output || ungracefulExit running uds.py for h failed
 
 echo -e "#include \"uds_def.h\"\n int main(void) { return 0; }" > ./output/main.cpp || ungracefulExit creating main.cpp failed
 

@@ -1,0 +1,38 @@
+#ifndef UDS_DEF_H
+#define UDS_DEF_H
+
+#include <stdint.h>
+
+typedef uint8_t service_e;
+
+{%- 	for servItem in servCont.getItems() %}
+#define SERVICE_{{servItem.nameForProgrammer | screaming_camel}} ((service_e){{servItem.hexStr}}) // {{servItem.shortName}}
+{%- 	endfor %}
+
+{%	for servItem in servCont.getItems() -%}
+{%-		if servItem.isContEmpty() == False %}
+typedef uint8_t serv_sub_{{servItem.nameForProgrammer | camel}}_e;
+{%-			for servSubItem in servItem.servSubCont.getItems() %}
+{%-				if servSubItem.isHexRange == False %}
+#define SERV_SUB_{{servSubItem.nameForProgrammer | screaming_camel }} ((serv_sub_{{servItem.nameForProgrammer | camel}}_e){{servSubItem.hexStartStr}}) // {{servSubItem.name}}
+{%-				else %}
+#define SERV_SUB_{{servSubItem.nameForProgrammer| screaming_camel }}_START ((serv_sub_{{servItem.nameForProgrammer | camel}}_e){{servSubItem.hexStartStr}}) // {{servSubItem.name}}
+#define SERV_SUB_{{servSubItem.nameForProgrammer| screaming_camel }}_END ((serv_sub_{{servItem.nameForProgrammer | camel}}_e){{servSubItem.hexEndStr}}) // {{servSubItem.name}}
+{%-				endif -%}
+{%-			endfor %}
+{%		endif -%}
+{%-	endfor %}
+
+{%-	for reqRespClass in reqRespClasses %}
+{%-		for reqRespItem in reqRespClass.reqRespItems %}
+#define {{reqRespClass.getName() | screaming_camel}}_{{reqRespItem.nameForProgrammer | screaming_camel}}_POS ((uint8_t){{reqRespItem.idx}})
+{%-		endfor %}
+{%		for reqRespItem in reqRespClass.reqRespItems %}
+{%-			if reqRespItem.isSizeKnown == True %}
+#define {{reqRespClass.getName() | screaming_camel}}_{{reqRespItem.nameForProgrammer | screaming_camel}}_SIZE ((uint8_t){{reqRespItem.dataSize}})
+{%-			endif -%}
+{%-		endfor %}
+{%	endfor %}
+
+#endif // UDS_DEF_H
+
