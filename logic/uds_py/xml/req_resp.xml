@@ -130,11 +130,19 @@
 	</ReqRespItem>
 	<ReqRespItem>
 		<MemClassName>DiagSessCtrlPos</MemClassName>
-		<NameForProgrammer>sessParam</NameForProgrammer>
+		<NameForProgrammer>p2Server</NameForProgrammer>
 		<ReqResp>Resp</ReqResp>
 		<DataByte>3</DataByte>
-		<Size>4</Size>
-		<Detail>sessionParameterRecord. This parameter record contains session specific parameter values reported by the server. The content of the sessionParameterRecord is defined in Table 28 and Table 29.</Detail>
+		<Size>2</Size>
+		<Detail/>
+	</ReqRespItem>
+	<ReqRespItem>
+		<MemClassName>DiagSessCtrlPos</MemClassName>
+		<NameForProgrammer>p2StarServer</NameForProgrammer>
+		<ReqResp>Resp</ReqResp>
+		<DataByte>5</DataByte>
+		<Size>2</Size>
+		<Detail/>
 	</ReqRespItem>
 	<ReqRespItem>
 		<MemClassName>EcuReset</MemClassName>
@@ -530,7 +538,7 @@ dataRecord[]#m = [ data#1 : data#o ]</Detail>
 		<Detail/>
 	</ReqRespItem>
 	<ReqRespItem>
-		<MemClassName>ReadDTCInfoBySt</MemClassName>
+		<MemClassName>ReadDtcInfoBySt</MemClassName>
 		<NameForProgrammer>sid</NameForProgrammer>
 		<ReqResp>Req</ReqResp>
 		<DataByte>1</DataByte>
@@ -538,7 +546,7 @@ dataRecord[]#m = [ data#1 : data#o ]</Detail>
 		<Detail/>
 	</ReqRespItem>
 	<ReqRespItem>
-		<MemClassName>ReadDTCInfoBySt</MemClassName>
+		<MemClassName>ReadDtcInfoBySt</MemClassName>
 		<NameForProgrammer>subFunc</NameForProgrammer>
 		<ReqResp>Req</ReqResp>
 		<DataByte>2</DataByte>
@@ -546,7 +554,7 @@ dataRecord[]#m = [ data#1 : data#o ]</Detail>
 		<Detail/>
 	</ReqRespItem>
 	<ReqRespItem>
-		<MemClassName>ReadDTCInfoBySt</MemClassName>
+		<MemClassName>ReadDtcInfoBySt</MemClassName>
 		<NameForProgrammer>mask</NameForProgrammer>
 		<ReqResp>Req</ReqResp>
 		<DataByte>3</DataByte>
@@ -554,7 +562,7 @@ dataRecord[]#m = [ data#1 : data#o ]</Detail>
 		<Detail/>
 	</ReqRespItem>
 	<ReqRespItem>
-		<MemClassName>ReadDTCInfoByStPos</MemClassName>
+		<MemClassName>ReadDtcInfoByStPos</MemClassName>
 		<NameForProgrammer>sid</NameForProgrammer>
 		<ReqResp>Resp</ReqResp>
 		<DataByte>1</DataByte>
@@ -562,7 +570,7 @@ dataRecord[]#m = [ data#1 : data#o ]</Detail>
 		<Detail/>
 	</ReqRespItem>
 	<ReqRespItem>
-		<MemClassName>ReadDTCInfoByStPos</MemClassName>
+		<MemClassName>ReadDtcInfoByStPos</MemClassName>
 		<NameForProgrammer>reportType</NameForProgrammer>
 		<ReqResp>Resp</ReqResp>
 		<DataByte>2</DataByte>
@@ -570,7 +578,7 @@ dataRecord[]#m = [ data#1 : data#o ]</Detail>
 		<Detail/>
 	</ReqRespItem>
 	<ReqRespItem>
-		<MemClassName>ReadDTCInfoByStPos</MemClassName>
+		<MemClassName>ReadDtcInfoByStPos</MemClassName>
 		<NameForProgrammer>availStMask</NameForProgrammer>
 		<ReqResp>Resp</ReqResp>
 		<DataByte>3</DataByte>
@@ -578,7 +586,7 @@ dataRecord[]#m = [ data#1 : data#o ]</Detail>
 		<Detail/>
 	</ReqRespItem>
 	<ReqRespItem>
-		<MemClassName>ReadDTCInfoByStPos</MemClassName>
+		<MemClassName>ReadDtcInfoByStPos</MemClassName>
 		<NameForProgrammer>dtcNStRecord</NameForProgrammer>
 		<ReqResp>Resp</ReqResp>
 		<DataByte>4</DataByte>

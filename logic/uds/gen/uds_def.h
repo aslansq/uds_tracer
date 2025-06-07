@@ -329,14 +329,18 @@ namespace UdsDef {
 		uint8_t getSid(void) const;
 		bool existSubFunc(void) const;
 		uint8_t getSubFunc(void) const;
-		bool existSessParam(void) const;
-		uint32_t getSessParam(void) const;
+		bool existP2Server(void) const;
+		uint16_t getP2Server(void) const;
+		bool existP2StarServer(void) const;
+		uint16_t getP2StarServer(void) const;
 		const uint8_t sidPos = 0;
 		const uint8_t subFuncPos = 1;
-		const uint8_t sessParamPos = 2;
+		const uint8_t p2ServerPos = 2;
+		const uint8_t p2StarServerPos = 4;
 		const uint8_t sidSize = 1;
 		const uint8_t subFuncSize = 1;
-		const uint8_t sessParamSize = 4;
+		const uint8_t p2ServerSize = 2;
+		const uint8_t p2StarServerSize = 2;
 		const QVector<uint8_t> packet;
 	};
 
@@ -615,9 +619,9 @@ namespace UdsDef {
 		const QVector<uint8_t> packet;
 	};
 
-	class ReadDTCInfoByStReq {
+	class ReadDtcInfoByStReq {
 	public:
-		ReadDTCInfoByStReq(const QVector<uint8_t> &packetRef);
+		ReadDtcInfoByStReq(const QVector<uint8_t> &packetRef);
 		bool existSid(void) const;
 		uint8_t getSid(void) const;
 		bool existSubFunc(void) const;
@@ -633,9 +637,9 @@ namespace UdsDef {
 		const QVector<uint8_t> packet;
 	};
 
-	class ReadDTCInfoByStPosResp {
+	class ReadDtcInfoByStPosResp {
 	public:
-		ReadDTCInfoByStPosResp(const QVector<uint8_t> &packetRef);
+		ReadDtcInfoByStPosResp(const QVector<uint8_t> &packetRef);
 		bool existSid(void) const;
 		uint8_t getSid(void) const;
 		bool existReportType(void) const;

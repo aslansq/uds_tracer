@@ -14,10 +14,10 @@ typedef uint8_t service_e;
 typedef uint8_t serv_sub_{{servItem.nameForProgrammer | camel}}_e;
 {%-			for servSubItem in servItem.servSubCont.getItems() %}
 {%-				if servSubItem.isHexRange == False %}
-#define SERV_SUB_{{servSubItem.nameForProgrammer | screaming_camel }} ((serv_sub_{{servItem.nameForProgrammer | camel}}_e){{servSubItem.hexStartStr}}) // {{servSubItem.name}}
+#define SERV_SUB_{{servItem.getCapitalizedName() | screaming_camel}}_{{servSubItem.nameForProgrammer | screaming_camel }} ((serv_sub_{{servItem.nameForProgrammer | camel}}_e){{servSubItem.hexStartStr}}) // {{servSubItem.name}}
 {%-				else %}
-#define SERV_SUB_{{servSubItem.nameForProgrammer| screaming_camel }}_START ((serv_sub_{{servItem.nameForProgrammer | camel}}_e){{servSubItem.hexStartStr}}) // {{servSubItem.name}}
-#define SERV_SUB_{{servSubItem.nameForProgrammer| screaming_camel }}_END ((serv_sub_{{servItem.nameForProgrammer | camel}}_e){{servSubItem.hexEndStr}}) // {{servSubItem.name}}
+#define SERV_SUB_{{servItem.getCapitalizedName() | screaming_camel}}_{{servSubItem.nameForProgrammer| screaming_camel }}_START ((serv_sub_{{servItem.nameForProgrammer | camel}}_e){{servSubItem.hexStartStr}}) // {{servSubItem.name}}
+#define SERV_SUB_{{servItem.getCapitalizedName() | screaming_camel}}_{{servSubItem.nameForProgrammer| screaming_camel }}_END ((serv_sub_{{servItem.nameForProgrammer | camel}}_e){{servSubItem.hexEndStr}}) // {{servSubItem.name}}
 {%-				endif -%}
 {%-			endfor %}
 {%		endif -%}

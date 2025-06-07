@@ -254,16 +254,30 @@ namespace UdsDef {
 		return packet[subFuncPos];
 	}
 
-	bool DiagSessCtrlPosResp::existSessParam(void) const
+	bool DiagSessCtrlPosResp::existP2Server(void) const
 	{
-		return packet.length() >= (sessParamPos + sessParamSize);
+		return packet.length() >= (p2ServerPos + p2ServerSize);
 	}
 
-	uint32_t DiagSessCtrlPosResp::getSessParam(void) const
+	uint16_t DiagSessCtrlPosResp::getP2Server(void) const
 	{
-		uint32_t ret = 0;
-		for(int i = 0; i < sessParamSize; ++i) {
-			((uint8_t *)&ret)[i] = packet[sessParamPos + i];
+		uint16_t ret = 0;
+		for(int i = 0; i < p2ServerSize; ++i) {
+			((uint8_t *)&ret)[i] = packet[p2ServerPos + i];
+		}
+		return ret;
+	}
+
+	bool DiagSessCtrlPosResp::existP2StarServer(void) const
+	{
+		return packet.length() >= (p2StarServerPos + p2StarServerSize);
+	}
+
+	uint16_t DiagSessCtrlPosResp::getP2StarServer(void) const
+	{
+		uint16_t ret = 0;
+		for(int i = 0; i < p2StarServerSize; ++i) {
+			((uint8_t *)&ret)[i] = packet[p2StarServerPos + i];
 		}
 		return ret;
 	}
@@ -878,83 +892,83 @@ namespace UdsDef {
 		}
 	}
 
-	ReadDTCInfoByStReq::ReadDTCInfoByStReq (const QVector<uint8_t> &packetRef) :
+	ReadDtcInfoByStReq::ReadDtcInfoByStReq (const QVector<uint8_t> &packetRef) :
 		packet(packetRef)
 	{
 	}
 
-	bool ReadDTCInfoByStReq::existSid(void) const
+	bool ReadDtcInfoByStReq::existSid(void) const
 	{
 		return packet.length() >= (sidPos + sidSize);
 	}
 
-	uint8_t ReadDTCInfoByStReq::getSid(void) const
+	uint8_t ReadDtcInfoByStReq::getSid(void) const
 	{
 		return packet[sidPos];
 	}
 
-	bool ReadDTCInfoByStReq::existSubFunc(void) const
+	bool ReadDtcInfoByStReq::existSubFunc(void) const
 	{
 		return packet.length() >= (subFuncPos + subFuncSize);
 	}
 
-	uint8_t ReadDTCInfoByStReq::getSubFunc(void) const
+	uint8_t ReadDtcInfoByStReq::getSubFunc(void) const
 	{
 		return packet[subFuncPos];
 	}
 
-	bool ReadDTCInfoByStReq::existMask(void) const
+	bool ReadDtcInfoByStReq::existMask(void) const
 	{
 		return packet.length() >= (maskPos + maskSize);
 	}
 
-	uint8_t ReadDTCInfoByStReq::getMask(void) const
+	uint8_t ReadDtcInfoByStReq::getMask(void) const
 	{
 		return packet[maskPos];
 	}
 
 
-	ReadDTCInfoByStPosResp::ReadDTCInfoByStPosResp (const QVector<uint8_t> &packetRef) :
+	ReadDtcInfoByStPosResp::ReadDtcInfoByStPosResp (const QVector<uint8_t> &packetRef) :
 		packet(packetRef)
 	{
 	}
 
-	bool ReadDTCInfoByStPosResp::existSid(void) const
+	bool ReadDtcInfoByStPosResp::existSid(void) const
 	{
 		return packet.length() >= (sidPos + sidSize);
 	}
 
-	uint8_t ReadDTCInfoByStPosResp::getSid(void) const
+	uint8_t ReadDtcInfoByStPosResp::getSid(void) const
 	{
 		return packet[sidPos];
 	}
 
-	bool ReadDTCInfoByStPosResp::existReportType(void) const
+	bool ReadDtcInfoByStPosResp::existReportType(void) const
 	{
 		return packet.length() >= (reportTypePos + reportTypeSize);
 	}
 
-	uint8_t ReadDTCInfoByStPosResp::getReportType(void) const
+	uint8_t ReadDtcInfoByStPosResp::getReportType(void) const
 	{
 		return packet[reportTypePos];
 	}
 
-	bool ReadDTCInfoByStPosResp::existAvailStMask(void) const
+	bool ReadDtcInfoByStPosResp::existAvailStMask(void) const
 	{
 		return packet.length() >= (availStMaskPos + availStMaskSize);
 	}
 
-	uint8_t ReadDTCInfoByStPosResp::getAvailStMask(void) const
+	uint8_t ReadDtcInfoByStPosResp::getAvailStMask(void) const
 	{
 		return packet[availStMaskPos];
 	}
 
-	bool ReadDTCInfoByStPosResp::existDtcNStRecord(void) const
+	bool ReadDtcInfoByStPosResp::existDtcNStRecord(void) const
 	{
 		return packet.length() > dtcNStRecordPos;
 	}
 
-	void ReadDTCInfoByStPosResp::getDtcNStRecord(QVector<uint8_t> &outRef) const
+	void ReadDtcInfoByStPosResp::getDtcNStRecord(QVector<uint8_t> &outRef) const
 	{
 		outRef.clear();
 		int outSize = packet.length() - dtcNStRecordPos;

@@ -275,7 +275,7 @@ void Uds::getClearDiagInfo()
 void Uds::getReadDtcInfoByStatusMask()
 {
 	UdsInfo info;
-	const UdsDef::ReadDTCInfoByStReq readDtcInfoByStReq(this->reqPacket);
+	const UdsDef::ReadDtcInfoByStReq readDtcInfoByStReq(this->reqPacket);
 	uint8_t mask;
 
 	if(!readDtcInfoByStReq.existMask()) {
@@ -554,7 +554,8 @@ void Uds::getDiagSessCtrlResp()
 	info.hexIdx = 0;
 	this->respPacketInfo.append(info);
 	uint8_t subFunc;
-	uint32_t sessParam;
+	uint16_t p2server;
+	uint16_t p2StarServer;
 	const UdsDef::DiagSessCtrlPosResp diagSessCtrlPosResp(this->respPacket);
 
 	if(!diagSessCtrlPosResp.existSubFunc()) {
@@ -575,17 +576,31 @@ void Uds::getDiagSessCtrlResp()
 		}
 	}
 
-	if(!diagSessCtrlPosResp.existSessParam()) {
+	if(!diagSessCtrlPosResp.existP2Server()) {
+		return;
+	}
+
+	info.clear();
+	info.name = "P2 Server";
+	info.detail = "P2 Server";
+	p2server = diagSessCtrlPosResp.getP2Server();
+	for(int i = 0; i < diagSessCtrlPosResp.p2ServerSize; ++i) {
+		info.hex.append((uint8_t)(p2server >> (8 * i)));
+	}
+	info.hexIdx = diagSessCtrlPosResp.p2ServerPos;
+	this->respPacketInfo.append(info);
+
+	if(!diagSessCtrlPosResp.existP2StarServer()) {
 		return;
 	}
 	info.clear();
-	sessParam = diagSessCtrlPosResp.getSessParam();
-	info.name = "Session Parameter";
-	info.detail = "Session Parameter";
-	for(int i = 0; i < diagSessCtrlPosResp.sessParamSize; ++i) {
-		info.hex.append(sessParam >> (8 * i));
+	info.name = "P2* Server";
+	info.detail = "P2* Server";
+	p2StarServer = diagSessCtrlPosResp.getP2StarServer();
+	for(int i = 0; i < diagSessCtrlPosResp.p2StarServerSize; ++i) {
+		info.hex.append((uint8_t)(p2StarServer >> (8 * i)));
 	}
-	info.hexIdx = diagSessCtrlPosResp.sessParamPos;
+	info.hexIdx = diagSessCtrlPosResp.p2StarServerPos;
 	this->respPacketInfo.append(info);
 }
 
@@ -798,7 +813,7 @@ void Uds::getReadDtcInfoByStatusMaskResp()
 	QVector<uint8_t> dtcNStRecord;
 
 
-	const UdsDef::ReadDTCInfoByStPosResp posResp(this->respPacket);
+	const UdsDef::ReadDtcInfoByStPosResp posResp(this->respPacket);
 
 	if(!posResp.existAvailStMask()) {
 		return;
