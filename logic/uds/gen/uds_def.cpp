@@ -800,6 +800,215 @@ namespace UdsDef {
 		}
 	}
 
+	ReadDtcInfoGenericReq::ReadDtcInfoGenericReq (const QVector<uint8_t> &packetRef) :
+		packet(packetRef)
+	{
+	}
+
+	bool ReadDtcInfoGenericReq::existSid(void) const
+	{
+		return packet.length() >= (sidPos + sidSize);
+	}
+
+	uint8_t ReadDtcInfoGenericReq::getSid(void) const
+	{
+		return packet[sidPos];
+	}
+
+	bool ReadDtcInfoGenericReq::existSubFunc(void) const
+	{
+		return packet.length() >= (subFuncPos + subFuncSize);
+	}
+
+	uint8_t ReadDtcInfoGenericReq::getSubFunc(void) const
+	{
+		return packet[subFuncPos];
+	}
+
+	bool ReadDtcInfoGenericReq::existBuf(void) const
+	{
+		return packet.length() > bufPos;
+	}
+
+	void ReadDtcInfoGenericReq::getBuf(QVector<uint8_t> &outRef) const
+	{
+		outRef.clear();
+		int outSize = packet.length() - bufPos;
+		for(int i = 0; i < outSize; ++i) {
+			outRef.append(packet[bufPos + i]);
+		}
+	}
+
+	ReadDtcInfoGenericPosResp::ReadDtcInfoGenericPosResp (const QVector<uint8_t> &packetRef) :
+		packet(packetRef)
+	{
+	}
+
+	bool ReadDtcInfoGenericPosResp::existSid(void) const
+	{
+		return packet.length() >= (sidPos + sidSize);
+	}
+
+	uint8_t ReadDtcInfoGenericPosResp::getSid(void) const
+	{
+		return packet[sidPos];
+	}
+
+	bool ReadDtcInfoGenericPosResp::existSubFunc(void) const
+	{
+		return packet.length() >= (subFuncPos + subFuncSize);
+	}
+
+	uint8_t ReadDtcInfoGenericPosResp::getSubFunc(void) const
+	{
+		return packet[subFuncPos];
+	}
+
+	bool ReadDtcInfoGenericPosResp::existBuf(void) const
+	{
+		return packet.length() > bufPos;
+	}
+
+	void ReadDtcInfoGenericPosResp::getBuf(QVector<uint8_t> &outRef) const
+	{
+		outRef.clear();
+		int outSize = packet.length() - bufPos;
+		for(int i = 0; i < outSize; ++i) {
+			outRef.append(packet[bufPos + i]);
+		}
+	}
+
+	ReadDTCInfoByStReq::ReadDTCInfoByStReq (const QVector<uint8_t> &packetRef) :
+		packet(packetRef)
+	{
+	}
+
+	bool ReadDTCInfoByStReq::existSid(void) const
+	{
+		return packet.length() >= (sidPos + sidSize);
+	}
+
+	uint8_t ReadDTCInfoByStReq::getSid(void) const
+	{
+		return packet[sidPos];
+	}
+
+	bool ReadDTCInfoByStReq::existSubFunc(void) const
+	{
+		return packet.length() >= (subFuncPos + subFuncSize);
+	}
+
+	uint8_t ReadDTCInfoByStReq::getSubFunc(void) const
+	{
+		return packet[subFuncPos];
+	}
+
+	bool ReadDTCInfoByStReq::existMask(void) const
+	{
+		return packet.length() >= (maskPos + maskSize);
+	}
+
+	uint8_t ReadDTCInfoByStReq::getMask(void) const
+	{
+		return packet[maskPos];
+	}
+
+
+	ReadDTCInfoByStPosResp::ReadDTCInfoByStPosResp (const QVector<uint8_t> &packetRef) :
+		packet(packetRef)
+	{
+	}
+
+	bool ReadDTCInfoByStPosResp::existSid(void) const
+	{
+		return packet.length() >= (sidPos + sidSize);
+	}
+
+	uint8_t ReadDTCInfoByStPosResp::getSid(void) const
+	{
+		return packet[sidPos];
+	}
+
+	bool ReadDTCInfoByStPosResp::existReportType(void) const
+	{
+		return packet.length() >= (reportTypePos + reportTypeSize);
+	}
+
+	uint8_t ReadDTCInfoByStPosResp::getReportType(void) const
+	{
+		return packet[reportTypePos];
+	}
+
+	bool ReadDTCInfoByStPosResp::existAvailStMask(void) const
+	{
+		return packet.length() >= (availStMaskPos + availStMaskSize);
+	}
+
+	uint8_t ReadDTCInfoByStPosResp::getAvailStMask(void) const
+	{
+		return packet[availStMaskPos];
+	}
+
+	bool ReadDTCInfoByStPosResp::existDtcNStRecord(void) const
+	{
+		return packet.length() > dtcNStRecordPos;
+	}
+
+	void ReadDTCInfoByStPosResp::getDtcNStRecord(QVector<uint8_t> &outRef) const
+	{
+		outRef.clear();
+		int outSize = packet.length() - dtcNStRecordPos;
+		for(int i = 0; i < outSize; ++i) {
+			outRef.append(packet[dtcNStRecordPos + i]);
+		}
+	}
+
+	DtcNStatusRecordPosResp::DtcNStatusRecordPosResp (const QVector<uint8_t> &packetRef) :
+		packet(packetRef)
+	{
+	}
+
+	bool DtcNStatusRecordPosResp::existDtcHighByte(void) const
+	{
+		return packet.length() >= (dtcHighBytePos + dtcHighByteSize);
+	}
+
+	uint8_t DtcNStatusRecordPosResp::getDtcHighByte(void) const
+	{
+		return packet[dtcHighBytePos];
+	}
+
+	bool DtcNStatusRecordPosResp::existDtcMiddleByte(void) const
+	{
+		return packet.length() >= (dtcMiddleBytePos + dtcMiddleByteSize);
+	}
+
+	uint8_t DtcNStatusRecordPosResp::getDtcMiddleByte(void) const
+	{
+		return packet[dtcMiddleBytePos];
+	}
+
+	bool DtcNStatusRecordPosResp::existDtcLowByte(void) const
+	{
+		return packet.length() >= (dtcLowBytePos + dtcLowByteSize);
+	}
+
+	uint8_t DtcNStatusRecordPosResp::getDtcLowByte(void) const
+	{
+		return packet[dtcLowBytePos];
+	}
+
+	bool DtcNStatusRecordPosResp::existStatusOfDtc(void) const
+	{
+		return packet.length() >= (statusOfDtcPos + statusOfDtcSize);
+	}
+
+	uint8_t DtcNStatusRecordPosResp::getStatusOfDtc(void) const
+	{
+		return packet[statusOfDtcPos];
+	}
+
+
 
 
 	const ServSub servDiagSessCtrlSubReserved1 (

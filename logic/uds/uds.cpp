@@ -272,9 +272,38 @@ void Uds::getClearDiagInfo()
 	// not care as of now
 }
 
+void Uds::getReadDtcInfoByStatusMask()
+{
+	UdsInfo info;
+	const UdsDef::ReadDTCInfoByStReq readDtcInfoByStReq(this->reqPacket);
+	uint8_t mask;
+
+	if(!readDtcInfoByStReq.existMask()) {
+		return;
+	}
+	info.clear();
+	mask = readDtcInfoByStReq.getMask();
+	info.name = "DTC Status Mask";
+	info.detail = "DTC Status Mask";
+	info.hex.append(mask);
+	info.hexIdx = readDtcInfoByStReq.maskPos;
+	this->reqPacketInfo.append(info);
+}
+
 void Uds::getReadDtcInfo()
 {
-	// not care as of now
+	const UdsDef::ReadDtcInfoGenericReq readDtcInfoReqGeneric(this->reqPacket);
+	uint8_t subFunc;
+
+	if(!readDtcInfoReqGeneric.existSubFunc()) {
+		return;
+	}
+	subFunc = readDtcInfoReqGeneric.getSubFunc();
+	switch(subFunc) {
+	case U8CAST(UdsDef::ServSubReadDtcInfo::reportDtcByStatusMask):
+		getReadDtcInfoByStatusMask();
+		break;
+	}
 }
 
 void Uds::getIoCtrlById()
@@ -450,6 +479,9 @@ void Uds::getReqInfo(const QVector<uint8_t> &packetRef, QVector<UdsInfo> &packet
 		break;
 	case U8CAST(UdsDef::ServEnum::transferData):
 		getTransferData();
+		break;
+	case U8CAST(UdsDef::ServEnum::readDtcInfo):
+		getReadDtcInfo();
 		break;
 	}
 
@@ -757,6 +789,94 @@ void Uds::getTransferDataResp()
 	this->respPacketInfo.append(info);
 }
 
+void Uds::getReadDtcInfoByStatusMaskResp()
+{
+	UdsInfo info;
+	uint8_t availStMask;
+	QVector<uint8_t> dtcNSt;
+	const uint8_t dtcNStSize = 4; // dtc(high,middle,low) + status mask
+	QVector<uint8_t> dtcNStRecord;
+
+
+	const UdsDef::ReadDTCInfoByStPosResp posResp(this->respPacket);
+
+	if(!posResp.existAvailStMask()) {
+		return;
+	}
+	info.clear();
+	info.name = "Available DTC Status Mask";
+	info.detail = info.name;
+	availStMask = posResp.getAvailStMask();
+	info.hex.append(availStMask);
+	info.hexIdx = posResp.availStMaskPos;
+	this->respPacketInfo.append(info);
+
+	if(!posResp.existDtcNStRecord()) {
+		return;
+	}
+
+	dtcNStRecord.clear();
+
+	posResp.getDtcNStRecord(dtcNStRecord);
+
+	for(int i = 0; i < dtcNStRecord.length();) {
+		dtcNSt.clear();
+		for(; i < dtcNStSize && i < dtcNStRecord.length(); ++i) {
+			dtcNSt.append(dtcNStRecord[i]);
+		}
+
+		if(dtcNSt.length() != dtcNStSize) {
+			continue;
+		}
+
+		info.clear();
+		info.name = "DTC and Status Mask";
+		info.detail = info.name;
+		info.hex = dtcNSt;
+		info.hexIdx = i - dtcNStSize;
+		this->respPacketInfo.append(info);
+	}
+}
+
+void Uds::getReadDtcInfoResp()
+{
+	UdsInfo info;
+	uint8_t subFunc;
+
+	info.name = UdsDef::servReadDtcInfo.shortName;
+	info.detail = UdsDef::servReadDtcInfo.shortName;
+	info.hex.append(this->respPacket[0]);
+	info.hexIdx = 0;
+	this->respPacketInfo.append(info);
+
+	const UdsDef::ReadDtcInfoGenericPosResp genericPosResp(this->respPacket);
+	if(!genericPosResp.existSubFunc()) {
+		return;
+	}
+
+	subFunc = genericPosResp.getSubFunc();
+
+	for(const UdsDef::ServSub *servSubPtr : UdsDef::servReadDtcInfoSub) {
+		if(servSubPtr->isThis(subFunc)) {
+			info.clear();
+			info.name = servSubPtr->shortName;
+			info.detail = servSubPtr->shortName;
+			info.hex.append(subFunc);
+			info.hexIdx = genericPosResp.subFuncPos;
+			this->respPacketInfo.append(info);
+			break;
+		}
+	}
+
+	if(!genericPosResp.existBuf()) {
+		return;
+	}
+
+	if(subFunc == U8CAST(UdsDef::ServSubReadDtcInfo::reportDtcByStatusMask)) {
+		getReadDtcInfoByStatusMaskResp();
+	}
+}
+
 void Uds::getRespInfo(const QVector<uint8_t> &packetRef, QVector<UdsInfo> &packetInfoRef)
 {
 	packetInfoRef.clear();
@@ -793,6 +913,8 @@ void Uds::getRespInfo(const QVector<uint8_t> &packetRef, QVector<UdsInfo> &packe
 		getWriteDataByIdResp();
 	} else if(sid == U8CAST(UdsDef::ServEnum::transferData)) {
 		getTransferDataResp();
+	} else if(sid == U8CAST(UdsDef::ServEnum::readDtcInfo)) {
+		getReadDtcInfoResp();
 	} else {
 		for(const UdsDef::ServEnum &servEnum : UdsDef::serv.keys()) {
 			const UdsDef::Serv *servPtr = UdsDef::serv[servEnum];
