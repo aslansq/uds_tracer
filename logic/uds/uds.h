@@ -49,6 +49,7 @@ private:
 	void getWriteDataById();
 	void getWriteMemByAddr();
 	void getClearDiagInfo();
+	void getReadDtcInfoByStatusMask();
 	void getReadDtcInfo();
 	void getIoCtrlById();
 	void getRoutineCtrl();
@@ -65,6 +66,8 @@ private:
 	void getRoutineCtrlResp();
 	void getWriteDataByIdResp();
 	void getTransferDataResp();
+	void getReadDtcInfoByStatusMaskResp();
+	void getReadDtcInfoResp();
 signals:
 
 };

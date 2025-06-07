@@ -581,6 +581,101 @@ namespace UdsDef {
 		const QVector<uint8_t> packet;
 	};
 
+	class ReadDtcInfoGenericReq {
+	public:
+		ReadDtcInfoGenericReq(const QVector<uint8_t> &packetRef);
+		bool existSid(void) const;
+		uint8_t getSid(void) const;
+		bool existSubFunc(void) const;
+		uint8_t getSubFunc(void) const;
+		bool existBuf(void) const;
+		void getBuf(QVector<uint8_t> &outRef) const;
+		const uint8_t sidPos = 0;
+		const uint8_t subFuncPos = 1;
+		const uint8_t bufPos = 2;
+		const uint8_t sidSize = 1;
+		const uint8_t subFuncSize = 1;
+		const QVector<uint8_t> packet;
+	};
+
+	class ReadDtcInfoGenericPosResp {
+	public:
+		ReadDtcInfoGenericPosResp(const QVector<uint8_t> &packetRef);
+		bool existSid(void) const;
+		uint8_t getSid(void) const;
+		bool existSubFunc(void) const;
+		uint8_t getSubFunc(void) const;
+		bool existBuf(void) const;
+		void getBuf(QVector<uint8_t> &outRef) const;
+		const uint8_t sidPos = 0;
+		const uint8_t subFuncPos = 1;
+		const uint8_t bufPos = 2;
+		const uint8_t sidSize = 1;
+		const uint8_t subFuncSize = 1;
+		const QVector<uint8_t> packet;
+	};
+
+	class ReadDTCInfoByStReq {
+	public:
+		ReadDTCInfoByStReq(const QVector<uint8_t> &packetRef);
+		bool existSid(void) const;
+		uint8_t getSid(void) const;
+		bool existSubFunc(void) const;
+		uint8_t getSubFunc(void) const;
+		bool existMask(void) const;
+		uint8_t getMask(void) const;
+		const uint8_t sidPos = 0;
+		const uint8_t subFuncPos = 1;
+		const uint8_t maskPos = 2;
+		const uint8_t sidSize = 1;
+		const uint8_t subFuncSize = 1;
+		const uint8_t maskSize = 1;
+		const QVector<uint8_t> packet;
+	};
+
+	class ReadDTCInfoByStPosResp {
+	public:
+		ReadDTCInfoByStPosResp(const QVector<uint8_t> &packetRef);
+		bool existSid(void) const;
+		uint8_t getSid(void) const;
+		bool existReportType(void) const;
+		uint8_t getReportType(void) const;
+		bool existAvailStMask(void) const;
+		uint8_t getAvailStMask(void) const;
+		bool existDtcNStRecord(void) const;
+		void getDtcNStRecord(QVector<uint8_t> &outRef) const;
+		const uint8_t sidPos = 0;
+		const uint8_t reportTypePos = 1;
+		const uint8_t availStMaskPos = 2;
+		const uint8_t dtcNStRecordPos = 3;
+		const uint8_t sidSize = 1;
+		const uint8_t reportTypeSize = 1;
+		const uint8_t availStMaskSize = 1;
+		const QVector<uint8_t> packet;
+	};
+
+	class DtcNStatusRecordPosResp {
+	public:
+		DtcNStatusRecordPosResp(const QVector<uint8_t> &packetRef);
+		bool existDtcHighByte(void) const;
+		uint8_t getDtcHighByte(void) const;
+		bool existDtcMiddleByte(void) const;
+		uint8_t getDtcMiddleByte(void) const;
+		bool existDtcLowByte(void) const;
+		uint8_t getDtcLowByte(void) const;
+		bool existStatusOfDtc(void) const;
+		uint8_t getStatusOfDtc(void) const;
+		const uint8_t dtcHighBytePos = 0;
+		const uint8_t dtcMiddleBytePos = 1;
+		const uint8_t dtcLowBytePos = 2;
+		const uint8_t statusOfDtcPos = 3;
+		const uint8_t dtcHighByteSize = 1;
+		const uint8_t dtcMiddleByteSize = 1;
+		const uint8_t dtcLowByteSize = 1;
+		const uint8_t statusOfDtcSize = 1;
+		const QVector<uint8_t> packet;
+	};
+
 
 	class ServSub {
 	public:
