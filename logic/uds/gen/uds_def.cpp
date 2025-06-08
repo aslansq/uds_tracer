@@ -1023,6 +1023,78 @@ namespace UdsDef {
 	}
 
 
+	ClearDtcInfoReq::ClearDtcInfoReq (const QVector<uint8_t> &packetRef) :
+		packet(packetRef)
+	{
+	}
+
+	bool ClearDtcInfoReq::existSid(void) const
+	{
+		return packet.length() >= (sidPos + sidSize);
+	}
+
+	uint8_t ClearDtcInfoReq::getSid(void) const
+	{
+		return packet[sidPos];
+	}
+
+	bool ClearDtcInfoReq::existDtcHighByte(void) const
+	{
+		return packet.length() >= (dtcHighBytePos + dtcHighByteSize);
+	}
+
+	uint8_t ClearDtcInfoReq::getDtcHighByte(void) const
+	{
+		return packet[dtcHighBytePos];
+	}
+
+	bool ClearDtcInfoReq::existDtcMiddleByte(void) const
+	{
+		return packet.length() >= (dtcMiddleBytePos + dtcMiddleByteSize);
+	}
+
+	uint8_t ClearDtcInfoReq::getDtcMiddleByte(void) const
+	{
+		return packet[dtcMiddleBytePos];
+	}
+
+	bool ClearDtcInfoReq::existDtcLowByte(void) const
+	{
+		return packet.length() >= (dtcLowBytePos + dtcLowByteSize);
+	}
+
+	uint8_t ClearDtcInfoReq::getDtcLowByte(void) const
+	{
+		return packet[dtcLowBytePos];
+	}
+
+	bool ClearDtcInfoReq::existMemorySelection(void) const
+	{
+		return packet.length() >= (memorySelectionPos + memorySelectionSize);
+	}
+
+	uint8_t ClearDtcInfoReq::getMemorySelection(void) const
+	{
+		return packet[memorySelectionPos];
+	}
+
+
+	ClearDtcInfoRespResp::ClearDtcInfoRespResp (const QVector<uint8_t> &packetRef) :
+		packet(packetRef)
+	{
+	}
+
+	bool ClearDtcInfoRespResp::existSid(void) const
+	{
+		return packet.length() >= (sidPos + sidSize);
+	}
+
+	uint8_t ClearDtcInfoRespResp::getSid(void) const
+	{
+		return packet[sidPos];
+	}
+
+
 
 
 	const ServSub servDiagSessCtrlSubReserved1 (

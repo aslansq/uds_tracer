@@ -680,6 +680,42 @@ namespace UdsDef {
 		const QVector<uint8_t> packet;
 	};
 
+	class ClearDtcInfoReq {
+	public:
+		ClearDtcInfoReq(const QVector<uint8_t> &packetRef);
+		bool existSid(void) const;
+		uint8_t getSid(void) const;
+		bool existDtcHighByte(void) const;
+		uint8_t getDtcHighByte(void) const;
+		bool existDtcMiddleByte(void) const;
+		uint8_t getDtcMiddleByte(void) const;
+		bool existDtcLowByte(void) const;
+		uint8_t getDtcLowByte(void) const;
+		bool existMemorySelection(void) const;
+		uint8_t getMemorySelection(void) const;
+		const uint8_t sidPos = 0;
+		const uint8_t dtcHighBytePos = 1;
+		const uint8_t dtcMiddleBytePos = 2;
+		const uint8_t dtcLowBytePos = 3;
+		const uint8_t memorySelectionPos = 4;
+		const uint8_t sidSize = 1;
+		const uint8_t dtcHighByteSize = 1;
+		const uint8_t dtcMiddleByteSize = 1;
+		const uint8_t dtcLowByteSize = 1;
+		const uint8_t memorySelectionSize = 1;
+		const QVector<uint8_t> packet;
+	};
+
+	class ClearDtcInfoRespResp {
+	public:
+		ClearDtcInfoRespResp(const QVector<uint8_t> &packetRef);
+		bool existSid(void) const;
+		uint8_t getSid(void) const;
+		const uint8_t sidPos = 0;
+		const uint8_t sidSize = 1;
+		const QVector<uint8_t> packet;
+	};
+
 
 	class ServSub {
 	public:

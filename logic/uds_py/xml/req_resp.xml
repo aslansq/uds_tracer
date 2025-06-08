@@ -625,4 +625,52 @@ dataRecord[]#m = [ data#1 : data#o ]</Detail>
 		<Size>1</Size>
 		<Detail/>
 	</ReqRespItem>
+	<ReqRespItem>
+		<MemClassName>ClearDtcInfo</MemClassName>
+		<NameForProgrammer>sid</NameForProgrammer>
+		<ReqResp>Req</ReqResp>
+		<DataByte>1</DataByte>
+		<Size>1</Size>
+		<Detail/>
+	</ReqRespItem>
+	<ReqRespItem>
+		<MemClassName>ClearDtcInfo</MemClassName>
+		<NameForProgrammer>dtcHighByte</NameForProgrammer>
+		<ReqResp>Req</ReqResp>
+		<DataByte>2</DataByte>
+		<Size>1</Size>
+		<Detail/>
+	</ReqRespItem>
+	<ReqRespItem>
+		<MemClassName>ClearDtcInfo</MemClassName>
+		<NameForProgrammer>dtcMiddleByte</NameForProgrammer>
+		<ReqResp>Req</ReqResp>
+		<DataByte>3</DataByte>
+		<Size>1</Size>
+		<Detail/>
+	</ReqRespItem>
+	<ReqRespItem>
+		<MemClassName>ClearDtcInfo</MemClassName>
+		<NameForProgrammer>dtcLowByte</NameForProgrammer>
+		<ReqResp>Req</ReqResp>
+		<DataByte>4</DataByte>
+		<Size>1</Size>
+		<Detail/>
+	</ReqRespItem>
+	<ReqRespItem>
+		<MemClassName>ClearDtcInfo</MemClassName>
+		<NameForProgrammer>memorySelection</NameForProgrammer>
+		<ReqResp>Req</ReqResp>
+		<DataByte>5</DataByte>
+		<Size>1</Size>
+		<Detail/>
+	</ReqRespItem>
+	<ReqRespItem>
+		<MemClassName>ClearDtcInfoResp</MemClassName>
+		<NameForProgrammer>sid</NameForProgrammer>
+		<ReqResp>Resp</ReqResp>
+		<DataByte>1</DataByte>
+		<Size>1</Size>
+		<Detail/>
+	</ReqRespItem>
 </ReqResp>

@@ -269,7 +269,53 @@ void Uds::getWriteMemByAddr()
 
 void Uds::getClearDiagInfo()
 {
-	// not care as of now
+	UdsDef::ClearDtcInfoReq clearDtcInfoReq(this->reqPacket);
+	UdsInfo info;
+	uint8_t u8;
+
+	if(!clearDtcInfoReq.existDtcHighByte()) {
+		return;
+	}
+	info.clear();
+	info.name = "Dtc High Byte";
+	info.detail = info.name;
+	u8 = clearDtcInfoReq.getDtcHighByte();
+	info.hex.append(u8);
+	info.hexIdx = clearDtcInfoReq.dtcHighBytePos;
+	this->reqPacketInfo.append(info);
+
+	if(!clearDtcInfoReq.existDtcMiddleByte()) {
+		return;
+	}
+	info.clear();
+	info.name = "Dtc Mid Byte";
+	info.detail = info.name;
+	u8 = clearDtcInfoReq.getDtcMiddleByte();
+	info.hex.append(u8);
+	info.hexIdx = clearDtcInfoReq.dtcMiddleBytePos;
+	this->reqPacketInfo.append(info);
+
+	if(!clearDtcInfoReq.existDtcLowByte()) {
+		return;
+	}
+	info.clear();
+	info.name = "Dtc Low Byte";
+	info.detail = info.name;
+	u8 = clearDtcInfoReq.getDtcLowByte();
+	info.hex.append(u8);
+	info.hexIdx = clearDtcInfoReq.dtcLowBytePos;
+	this->reqPacketInfo.append(info);
+
+	if(!clearDtcInfoReq.existMemorySelection()) {
+		return;
+	}
+	info.clear();
+	info.name = "Memory Selection";
+	info.detail = info.name;
+	u8 = clearDtcInfoReq.getMemorySelection();
+	info.hex.append(u8);
+	info.hexIdx = clearDtcInfoReq.memorySelectionPos;
+	this->reqPacketInfo.append(info);
 }
 
 void Uds::getReadDtcInfoByStatusMask()
@@ -482,6 +528,9 @@ void Uds::getReqInfo(const QVector<uint8_t> &packetRef, QVector<UdsInfo> &packet
 		break;
 	case U8CAST(UdsDef::ServEnum::readDtcInfo):
 		getReadDtcInfo();
+		break;
+	case U8CAST(UdsDef::ServEnum::clearDiagInfo):
+		getClearDiagInfo();
 		break;
 	}
 
