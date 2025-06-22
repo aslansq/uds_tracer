@@ -1,5 +1,3 @@
-![all_builds](https://github.com/aslansq/uds_tracer/actions/workflows/cmake-single-platform.yml/badge.svg)
-
 This tool is designed for listening to CAN traffic and identifying UDS (Unified Diagnostic Services) packages. It provides a graphical interface to help users analyze and validate the data efficiently. It supports CAN Standard (CAN Std), CAN Flexible Data-rate (CAN FD), and replaying recorded data for detailed analysis.  
 
 ### Supported Devices
