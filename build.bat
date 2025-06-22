@@ -4,6 +4,8 @@ setlocal enabledelayedexpansion
 set THIS_DIR=%~dp0
 cd !THIS_DIR!
 
+goto output
+
 if exist build (
 	rmdir /s /q build
 )
@@ -12,19 +14,29 @@ mkdir build
 cd build
 qmake ../*.pro
 if !errorlevel! equ 0 (
-    echo Success qmake
+	echo Success qmake
 ) else (
-    echo Failure qmake
-    goto ungracefulExit
+	echo Failure qmake
+	goto ungracefulExit
 )
 
 mingw32-make
 if !errorlevel! equ 0 (
-    echo Success mingw32-make
+	echo Success mingw32-make
 ) else (
-    echo Failure mingw32-make
-    goto ungracefulExit
+	echo Failure mingw32-make
+	goto ungracefulExit
 )
+
+:output
+cd !THIS_DIR!
+if exist output (
+	rmdir /s /q output
+)
+mkdir output
+copy build\release\uds_tracer.exe output\
+cd output
+windeployqt uds_tracer.exe
 
 cd !THIS_DIR!
 echo Build completed successfully.
