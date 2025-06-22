@@ -26,11 +26,11 @@
  *************************************************************/
 enum class IsoTpRet {
 	OK         = 0,
-	ERROR      = -1,
+	ISO_ERROR  = -1,
 	INPROGRESS = -2,
-	OVERFLOW   = -3,
+	ISO_OVERFLOW   = -3,
 	WRONG_SN   = -4,
-	NO_DATA    = -5,
+	ISO_NO_DATA    = -5,
 	TIMEOUT    = -6,
 	LENGTH     = -7
 };
@@ -49,7 +49,7 @@ public:
 enum class IsoTpSendStatus {
 	IDLE,
 	INPROGRESS,
-	ERROR
+	ISO_ERROR
 };
 
 /* ISOTP receiver status */
@@ -132,7 +132,7 @@ enum class IsoTpProtocolControlInformation {
 enum class IsoTpFlowStatus {
 	CONTINUE = 0,
 	WAIT     = 1,
-	OVERFLOW = 2
+	ISO_OVERFLOW = 2
 };
 
 /* Private: network layer resault code.
@@ -147,7 +147,7 @@ enum class IsoTpProtocolResult {
 	UNEXP_PDU    = -6,
 	WFT_OVRN     = -7,
 	BUFFER_OVFLW = -8,
-	ERROR        = -9
+	ISO_ERROR    = -9
 };
 
 #endif // __ISOTP_TYPES__HPP__

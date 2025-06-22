@@ -5,7 +5,7 @@
 /// @defgroup hexvalidator_h GUI Hex Validator
 /// @{
 #include <QValidator>
-#include <QRegExp>
+#include <QRegularExpression>
 
 class HexValidator : public QValidator {
 	Q_OBJECT
@@ -16,8 +16,8 @@ public:
 	State validate(QString &input, int &pos) const override {
 		Q_UNUSED(pos);
 
-		QRegExp hexRegExp("^[0-9A-Fa-f]*$");
-		if (hexRegExp.exactMatch(input)) {
+		static const QRegularExpression hexRegex(QStringLiteral("^[0-9A-Fa-f]*$"));
+		if (hexRegex.match(input).hasMatch()) {
 			return Acceptable;
 		} else {
 			return Invalid;

@@ -1,14 +1,8 @@
 QT       += core gui
-QT += xmlpatterns
 QT += xml
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 message("Using Qt version $$[QT_VERSION]")
-
-!equals(QT_MAJOR_VERSION, 5) {
-    error("Qt version 5 is not detected. Exiting qmake.")
-}
-
 
 CONFIG += c++17
 
@@ -60,6 +54,9 @@ SOURCES += \
     main.cpp
 
 INCLUDEPATH += $$PWD/cantabform
+win32 {
+    INCLUDEPATH += $$PWD/drivers/peak-win-V4.10.1.968
+}
 INCLUDEPATH += $$PWD/logic/cmd
 INCLUDEPATH += $$PWD/logic/cobs
 INCLUDEPATH += $$PWD/logic/isotp
@@ -76,6 +73,12 @@ HEADERS += \
     cantabform/cantabform.h \
     logic/replaycan.h \
     logic/traceuds.h
+
+win32 {
+    HEADERS += \
+        drivers/peak-win-V4.10.1.968/PCANBasic.h \
+        drivers/peak-win-V4.10.1.968/stdafx.h
+}
 
 HEADERS += \
     logic/cmd/cmddef.h \
@@ -121,7 +124,10 @@ FORMS += \
     tracertabform/tracertabform.ui \
     mainwindow.ui
 
-LIBS += -lpcanbasic
+LIBS += -lpcanbasic 
+win32 {
+    LIBS += -L$$PWD/drivers/peak-win-V4.10.1.968
+}
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

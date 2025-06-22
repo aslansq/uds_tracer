@@ -23,6 +23,10 @@ CanFdForm::CanFdForm(QWidget *parent) :
 	ui->arbitSjwLineEdit->setPlaceholderText(this->config.getArbitSjw());
 	ui->dataSjwLineEdit->setPlaceholderText(this->config.getDataSjw());
 
+#ifdef Q_OS_WIN32
+	ui->devLineEdit->setValidator(this->validatorPtr);
+	ui->devPushButton->setVisible(false);
+#endif
 	ui->clkFreqLineEdit->setValidator(this->validatorPtr);
 	ui->arbitBaudLineEdit->setValidator(this->validatorPtr);
 	ui->dataBaudLineEdit->setValidator(this->validatorPtr);

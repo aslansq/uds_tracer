@@ -28,12 +28,18 @@ CanStdForm::CanStdForm(QWidget *parent) :
 	for(const Baud &baudRef : this->availableBaudrates) {
 		ui->baudComboBox->addItem(baudRef.name);
 	}
+	this->validatorPtr = new QIntValidator(this);
+#ifdef Q_OS_WIN32
+	ui->devLineEdit->setValidator(this->validatorPtr);
+	ui->devPushButton->setVisible(false);
+#endif
 	ui->baudComboBox->setCurrentIndex(getIndexOfAvailableBaud(this->config.getBaud().toInt()));
 }
 
 CanStdForm::~CanStdForm()
 {
 	delete ui;
+	delete this->validatorPtr;
 }
 
 const ConfigStd &CanStdForm::getConfig(void)
