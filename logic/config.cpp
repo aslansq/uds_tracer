@@ -314,7 +314,7 @@ ConfigStd::ConfigStd(QObject *parent):
 		CmdDef::typeNames[CmdDef::Type::CanStdCfg],
 		{
 #ifdef Q_OS_WIN32
-			{ CmdDef::devFd.name     , "1" },
+			{ CmdDef::devStd.name     , "1" },
 #else
 			{ CmdDef::devStd.name, "/dev/pcanusb32" },
 #endif

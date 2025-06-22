@@ -17,7 +17,7 @@ cd "$thisDirPath" || ungracefulExit "Failed to change directory to $thisDirPath"
 rm -rf build
 mkdir -p build
 cd build || ungracefulExit "Failed to change gui build directory"
-qmake ../*.pro || ungracefulExit "Failed to run qmake for gui"
+qmake6 ../*.pro || ungracefulExit "Failed to run qmake for gui"
 make || ungracefulExit "Failed to build gui"
 
 ################################################################################
