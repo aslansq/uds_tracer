@@ -1,14 +1,8 @@
 QT       += core gui
-QT += xmlpatterns
 QT += xml
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 message("Using Qt version $$[QT_VERSION]")
-
-!equals(QT_MAJOR_VERSION, 5) {
-    error("Qt version 5 is not detected. Exiting qmake.")
-}
-
 
 CONFIG += c++17
 

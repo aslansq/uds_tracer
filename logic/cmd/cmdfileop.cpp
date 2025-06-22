@@ -2,8 +2,8 @@
 #include <QDomElement>
 #include <QFile>
 #include <QTextStream>
-#include <QXmlSchema>
-#include <QXmlSchemaValidator>
+//#include <QXmlSchema>
+//#include <QXmlSchemaValidator>
 #include "cmd.h"
 #include "util.h"
 
@@ -97,29 +97,29 @@ QDomElement Cmd::getConfigXmlRoot(const QString &filePathRef)
 		root.clear();
 	}
 
-	QXmlSchema schema;
-	if (!schema.load(this->configAll.xsdData)) {
-		Util::log(
-			LogType::CmdResp,
-			LogSt::Nok,
-			CmdDef::loadConfig,
-			filePathRef,
-			"Failed to load XSD schema from string."
-		);
-		return root;
-	}
+	//QXmlSchema schema;
+	//if (!schema.load(this->configAll.xsdData)) {
+	//	Util::log(
+	//		LogType::CmdResp,
+	//		LogSt::Nok,
+	//		CmdDef::loadConfig,
+	//		filePathRef,
+	//		"Failed to load XSD schema from string."
+	//	);
+	//	return root;
+	//}
 
-	QXmlSchemaValidator validator(schema);
-	if (!validator.validate(doc.toByteArray())) {
-		Util::log(
-			LogType::CmdResp,
-			LogSt::Nok,
-			CmdDef::loadConfig,
-			filePathRef,
-			"XML validation against XSD failed."
-		);
-		root.clear();
-	}
+	//QXmlSchemaValidator validator(schema);
+	//if (!validator.validate(doc.toByteArray())) {
+	//	Util::log(
+	//		LogType::CmdResp,
+	//		LogSt::Nok,
+	//		CmdDef::loadConfig,
+	//		filePathRef,
+	//		"XML validation against XSD failed."
+	//	);
+	//	root.clear();
+	//}
 
 	return root;
 }

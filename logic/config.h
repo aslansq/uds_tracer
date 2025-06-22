@@ -97,7 +97,6 @@ class ConfigReplay : public ConfigAbstract
 {
 public:
 	ConfigReplay(QObject *parent = nullptr);
-	ConfigReplay(const ConfigReplay &other);
 
 	void setDev(const QString &devRef);
 	QString getDev(void) const;
