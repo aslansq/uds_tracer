@@ -185,7 +185,7 @@ IsoTpRet IsoTp::receive_first_frame(IsoTpCanMessage *message, uint8_t len)
 	
 	if (payload_length > link.receive_buf_size) {
 		user_debug("Multi-frame response too large for receiving buffer.");
-		return IsoTpRet::OVERFLOW;
+		return IsoTpRet::ISO_OVERFLOW;
 	}
 	
 	/* copying data */
@@ -290,14 +290,14 @@ void IsoTp::poll()
 			link.send_status = IsoTpSendStatus::IDLE;
 			}
 		} else {
-			link.send_status = IsoTpSendStatus::ERROR;
+			link.send_status = IsoTpSendStatus::ISO_ERROR;
 		}
 		}
 	
 		/* check timeout */
 		if (IsoTpTimeAfter(user_get_ms(), link.send_timer_bs)) {
 		link.send_protocol_result = IsoTpProtocolResult::TIMEOUT_BS;
-		link.send_status = IsoTpSendStatus::ERROR;
+		link.send_status = IsoTpSendStatus::ISO_ERROR;
 		}
 	}
 	
@@ -356,13 +356,13 @@ void IsoTp::on_can_message(const uint8_t *data, uint8_t len)
 		ret = receive_first_frame(&message, len);
 	
 		/* if overflow happened */
-		if (IsoTpRet::OVERFLOW == ret) {
+		if (IsoTpRet::ISO_OVERFLOW == ret) {
 			/* update protocol result */
 			link.receive_protocol_result = IsoTpProtocolResult::BUFFER_OVFLW;
 			/* change status */
 			link.receive_status = IsoTpReceiveStatus::IDLE;
 			/* send error message */
-			send_flow_control(IsoTpFlowStatus::OVERFLOW, 0, 0);
+			send_flow_control(IsoTpFlowStatus::ISO_OVERFLOW, 0, 0);
 			break;
 		}
 	
@@ -429,9 +429,9 @@ void IsoTp::on_can_message(const uint8_t *data, uint8_t len)
 			link.send_timer_bs = user_get_ms() + IsoTpConfig::DEFAULT_RESPONSE_TIMEOUT;
 	
 			/* overflow */
-			if (static_cast<uint8_t>(IsoTpFlowStatus::OVERFLOW) == message.as.flow_control.FS) {
+			if (static_cast<uint8_t>(IsoTpFlowStatus::ISO_OVERFLOW) == message.as.flow_control.FS) {
 				link.send_protocol_result = IsoTpProtocolResult::BUFFER_OVFLW;
-				link.send_status = IsoTpSendStatus::ERROR;
+				link.send_status = IsoTpSendStatus::ISO_ERROR;
 			}
 	
 			/* wait */
@@ -440,7 +440,7 @@ void IsoTp::on_can_message(const uint8_t *data, uint8_t len)
 				/* wait exceed allowed count */
 				if (link.send_wtf_count > IsoTpConfig::MAX_WFT_NUMBER) {
 					link.send_protocol_result = IsoTpProtocolResult::WFT_OVRN;
-					link.send_status = IsoTpSendStatus::ERROR;
+					link.send_status = IsoTpSendStatus::ISO_ERROR;
 				}
 			}
 	
@@ -474,7 +474,7 @@ IsoTpRet IsoTp::send_with_id(uint32_t id, const uint8_t payload[], uint16_t size
 		user_debug("Message size too large. Increase ISO_TP_MAX_MESSAGE_SIZE to set a larger buffer\n");
 		char message[128];
 		sprintf(&message[0], "Attempted to send %d bytes; max size is %d!\n", size, link.send_buf_size);
-		return IsoTpRet::OVERFLOW;
+		return IsoTpRet::ISO_OVERFLOW;
 	}
 	
 	if (IsoTpSendStatus::INPROGRESS == link.send_status) {
@@ -517,7 +517,7 @@ IsoTpRet IsoTp::receive(
 	uint16_t copylen;
 	
 	if (IsoTpReceiveStatus::FULL != link.receive_status) {
-		return IsoTpRet::NO_DATA;
+		return IsoTpRet::ISO_NO_DATA;
 	}
 	
 	copylen = link.receive_size;
