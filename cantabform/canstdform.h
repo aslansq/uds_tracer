@@ -2,6 +2,7 @@
 #define CANSTDFORM_H
 
 #include <QWidget>
+#include <QIntValidator>
 #include "config.h"
 
 namespace Ui {
@@ -42,6 +43,7 @@ private:
 	};
 
 	Ui::CanStdForm *ui;
+	QIntValidator *validatorPtr;
 	ConfigStd config;
 	QVector<Baud> availableBaudrates;
 	int getIndexOfAvailableBaud(uint64_t baudrate);

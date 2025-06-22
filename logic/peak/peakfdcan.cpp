@@ -24,8 +24,11 @@ void PeakFdCan::connect(const void * configPtr)
 		Util::log(LogType::CmdRespThrow, LogSt::Nok, "Peak fd config pointer is null");
 	}
 
+#ifdef Q_OS_WIN32
+	this->pcanHandle = getPeakHandleId(configFdPtr->getDev().toInt());
+#else
 	this->pcanHandle = getPeakHandleId(configFdPtr->getDev());
-
+#endif
 	this->pcanConfigStr =
 		QString("f_clock_mhz=%1, ").arg(this->configFdPtr->getClkFreq()) +
 		QString("nom_bitrate=%1, ").arg(this->configFdPtr->getArbitBaud()) +

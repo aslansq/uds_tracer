@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent, Cli &cliRef)
 	connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::onAboutAction);
 
 	QString lastProjectPath = settings.value("lastProjectPath", "").toString();
-	if (!lastProjectPath.isEmpty()) {
+	if ((!lastProjectPath.isEmpty()) && QFile::exists(lastProjectPath)) {
 		this->prjFilePath = QFileInfo(lastProjectPath);
 		this->cliRef.commandMapWThrow({{CmdDef::loadConfig.name, this->prjFilePath.absoluteFilePath()}});
 	}

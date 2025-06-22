@@ -154,7 +154,11 @@ ConfigFd::ConfigFd(QObject *parent):
 		parent,
 		CmdDef::typeNames[CmdDef::Type::CanFdCfg],
 		{
+#ifdef Q_OS_WIN32
+			{ CmdDef::devFd.name     , "1" },
+#else
 			{ CmdDef::devFd.name     , "/dev/pcanusbfd32" },
+#endif
 			{ CmdDef::clkFreqMHz.name, "80" },
 			{ CmdDef::arbitBaud.name , "500000" },
 			{ CmdDef::dataBaud.name  , "2000000" },
@@ -309,7 +313,11 @@ ConfigStd::ConfigStd(QObject *parent):
 		parent,
 		CmdDef::typeNames[CmdDef::Type::CanStdCfg],
 		{
+#ifdef Q_OS_WIN32
+			{ CmdDef::devFd.name     , "1" },
+#else
 			{ CmdDef::devStd.name, "/dev/pcanusb32" },
+#endif
 			{ CmdDef::baud.name, "500000" }
 		}
 	)

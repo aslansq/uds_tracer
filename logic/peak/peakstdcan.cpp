@@ -25,7 +25,12 @@ void PeakStdCan::connect(const void *configPtr)
 	}
 
 	dev = this->configStdPtr->getDev();
+
+#ifdef Q_OS_WIN32
+	this->pcanHandle = getPeakHandleId(dev.toInt());
+#else
 	this->pcanHandle = getPeakHandleId(dev);
+#endif
 
 	if(this->pcanHandle == this->invalidPcanHandle) {
 		Util::log(LogType::CmdRespThrow, LogSt::Nok, CmdDef::connect, "on", QString("Invalid device %1!").arg(dev));
