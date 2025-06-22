@@ -4,8 +4,6 @@ setlocal enabledelayedexpansion
 set THIS_DIR=%~dp0
 cd !THIS_DIR!
 
-goto output
-
 if exist build (
 	rmdir /s /q build
 )
@@ -28,7 +26,6 @@ if !errorlevel! equ 0 (
 	goto ungracefulExit
 )
 
-:output
 cd !THIS_DIR!
 if exist output (
 	rmdir /s /q output
