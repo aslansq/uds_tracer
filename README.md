@@ -40,6 +40,9 @@ doxygen doxyfile
 
 ### ChangeLog
 
+#### v0.3.0 - unreleased
+- HTML report generation
+
 #### v0.2.0 - 2025.06.23
 - Migration to Qt6
 - Support for Windows OS

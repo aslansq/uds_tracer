@@ -2,9 +2,85 @@
 #include "util.h"
 #include <QDateTime>
 
+const QByteArray TraceUds::htmlHeader = QByteArrayLiteral(R"(<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>UDS Trace Report</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			min-height: 100vh;
+			background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+			font-family: 'Segoe UI', 'Courier New', Courier, monospace;
+		}
+		.list-widget {
+			max-width: 600px;
+			margin: 40px auto;
+			background: rgba(255,255,255,0.9);
+			border-radius: 12px;
+			box-shadow: 0 8px 32px rgba(31,38,135,0.18);
+			padding: 24px;
+		}
+		.list-widget h3 {
+			margin: 0 0 24px 0;
+			font-size: 2em;
+			color: #2d3a4b;
+			text-align: center;
+		}
+		.list-widget ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+		.list-widget li {
+			margin-bottom: 12px;
+			padding: 14px 18px;
+			border-radius: 8px;
+			background: #f5faff;
+			color: #2d3a4b;
+			font-size: 1em;
+			display: flex;
+			align-items: flex-start;
+		}
+		.list-widget li.request {
+			background: #cce6ff;
+			font-weight: bold;
+		}
+		.list-widget li.response {
+			background: #baffc9;
+			font-weight: bold;
+			text-align: right;
+			justify-content: flex-end;
+		}
+		.list-widget li:last-child {
+			margin-bottom: 0;
+		}
+		.list-widget li div {
+			white-space: pre-line;
+		}
+	</style>
+</head>
+<body>
+
+<div class="list-widget">
+	<h3>Uds Packet Report</h3>
+	<ul>)");
+
+
+const QByteArray TraceUds::htmlFooter = QByteArrayLiteral(R"(</ul>
+</div>
+
+</body>
+</html>
+
+)");
+
 TraceUds::TraceUds(QObject *parent) :
 	QObject{parent},
-	logFilePtr{nullptr}
+	logFilePtr{nullptr},
+	htmlFilePtr{nullptr}
 {
 
 }
@@ -25,6 +101,19 @@ void TraceUds::open(const QString &logDirPathRef)
 	QString s = "{\"traceEvents\":[\n";
 	this->logFilePtr->write(s.toUtf8());
 	this->logFilePtr->flush();
+
+	logFileName = Util::getFileName() + ".html";
+	this->htmlFilePath = logDirPathRef + "/" + logFileName;
+	this->htmlFilePtr = new QFile(htmlFilePath);
+	if (!this->htmlFilePtr->open(QIODevice::WriteOnly | QIODevice::Text)) {
+		Util::log(
+			LogType::GenericThrow,
+			LogSt::Nok,
+			"Failed to open HTML trace file: " + htmlFilePath
+		);
+	}
+	this->htmlFilePtr->write(htmlHeader);
+	this->htmlFilePtr->flush();
 }
 
 void TraceUds::close()
@@ -42,6 +131,18 @@ void TraceUds::close()
 	Util::log(LogType::Generic, LogSt::Ok, "Trace file closed: " + this->logFilePath);
 
 	this->logFilePath = "";
+
+	if (this->htmlFilePtr == nullptr) {
+		return;
+	}
+	this->htmlFilePtr->write(htmlFooter);
+	this->htmlFilePtr->flush();
+	this->htmlFilePtr->close();
+	delete this->htmlFilePtr;
+	this->htmlFilePtr = nullptr;
+
+	Util::log(LogType::Generic, LogSt::Ok, "HTML trace file closed: " + this->htmlFilePath);
+	this->htmlFilePath = "";
 }
 
 void TraceUds::writeJsonItem(
@@ -102,6 +203,93 @@ void TraceUds::writeJsonItem(
 }
 
 void TraceUds::onUdsPacketReceived(
+	bool isReq,
+	const QString &rawCanMsgStrRef,
+	const QVector<UdsInfo> &packetInfoRef
+) {
+	jsonUdsPacketHandler(
+		isReq,
+		rawCanMsgStrRef,
+		packetInfoRef
+	);
+	htmlUdsPacketHandler(
+		isReq,
+		rawCanMsgStrRef,
+		packetInfoRef
+	);
+}
+
+void TraceUds::addHtmlTrace(bool isReq, QString s)
+{
+	QString type;
+
+	if(isReq) {
+		type = "request";
+	} else {
+		type = "response";
+	}
+
+	QString traceStr =
+		"<li class=\"" +
+		type +
+		"\"><div>" +
+		s +
+		"</div></li>\n";
+
+	if (this->htmlFilePtr == nullptr) {
+		return;
+	}
+	this->htmlFilePtr->write(traceStr.toUtf8());
+}
+
+void TraceUds::htmlUdsPacketHandler(
+	bool isReq,
+	const QString &rawCanMsgStrRef,
+	const QVector<UdsInfo> &packetInfoRef
+)
+{
+	(void)rawCanMsgStrRef;
+	if(isReq) {
+		QString s = "";
+		for(const UdsInfo &info : packetInfoRef) {
+			for(uint32_t i = 0; i < (info.hexIdx * 3); ++i) {
+				s += "&nbsp;";
+			}
+			s += info.getHexStr(8) + "<br>";
+			if(info.name != "") {
+				s += info.name + "<br>";
+			}
+		}
+		s = s.trimmed();
+		addHtmlTrace(isReq, s);
+	} else {
+		uint32_t packetHexStrLen = 0;
+		QString s = "";
+		if(packetInfoRef.length() != 0) {
+			s = packetInfoRef[0].getHexStr(8).trimmed();
+		}
+		packetHexStrLen = s.length();
+
+		for(int i = 1; i < packetInfoRef.length(); ++i) {
+			QString hexStr = packetInfoRef[i].getHexStr(8).trimmed();
+			QString paddedHexStr = hexStr;
+			int paddingLen = packetHexStrLen - (packetInfoRef[i].hexIdx * 3) - hexStr.length();
+			s += "<br>";
+			for(int j = 0; j < paddingLen; j++) {
+				paddedHexStr += "&nbsp;";
+			}
+			if (paddedHexStr.endsWith("&nbsp;")) {
+				paddedHexStr.chop(1);
+			}
+			s += paddedHexStr + "<br>";
+			s += packetInfoRef[i].name;
+		}
+
+		addHtmlTrace(isReq, s);
+	}
+}
+
+void TraceUds::jsonUdsPacketHandler(
 	bool isReq,
 	const QString &rawCanMsgStrRef,
 	const QVector<UdsInfo> &packetInfoRef

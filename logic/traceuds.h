@@ -11,6 +11,7 @@
 
 #include <QObject>
 #include <QFile>
+#include <QByteArray>
 #include "uds.h"
 
 class TraceUds : public QObject
@@ -28,7 +29,11 @@ public slots:
 	);
 private:
 	QFile *logFilePtr;
+	QFile *htmlFilePtr;
 	QString logFilePath;
+	static const QByteArray htmlHeader;
+	static const QByteArray htmlFooter;
+	QString htmlFilePath;
 	void writeJsonItem(
 		bool isBegin,
 		bool isReq,
@@ -39,6 +44,17 @@ private:
 		uint64_t byteIdx,
 		const QString &rawStrRef
 	);
+	void htmlUdsPacketHandler(
+		bool isReq,
+		const QString &rawCanMsgStrRef,
+		const QVector<UdsInfo> &packetInfoRef
+	);
+	void jsonUdsPacketHandler(
+		bool isReq,
+		const QString &rawCanMsgStrRef,
+		const QVector<UdsInfo> &packetInfoRef
+	);
+	void addHtmlTrace(bool isReq, QString s);
 };
 
 #endif // TRACEUDS_H
