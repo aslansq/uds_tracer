@@ -41,6 +41,8 @@ doxygen doxyfile
 ### ChangeLog
 
 #### v0.3.0 - unreleased
+- Perfetto ui not able to render chrome json format fix
+        - Perfetto expected pid and tid something other than 0 zero after update on json parser.
 - HTML report generation
 
 #### v0.2.0 - 2025.06.23

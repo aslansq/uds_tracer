@@ -186,8 +186,8 @@ void TraceUds::writeJsonItem(
 
 	QString s = formatStr
 	.arg(catStr) // 1
-	.arg(0) // 2
-	.arg(0) // 3
+	.arg(10) // 2
+	.arg(10) // 3
 	.arg(byteIdxStr) // 4
 	.arg(isBeginStr) // 5
 	.arg(name) // 6
